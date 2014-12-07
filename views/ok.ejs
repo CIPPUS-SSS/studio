@@ -1,0 +1,35 @@
+
+<%include theader%>
+<link rel="stylesheet" type="text/css" href="/stylesheets/bianjiziliao.css">
+<script type="text/javascript" src="/javascripts/bianjiziliao.js"></script>
+
+</head>
+
+<body>
+<%- include top %>
+<%- include header %>
+<%- include nav%>
+<div id="con">
+    <%- include leftnav%>
+    <div class="contentnav">
+      <span>
+        <a href="/user/">螺丝工作室个人管理 ></a>
+        <a href="info">个人资料 ></a>
+        <a href="infoEdit">编辑资料</a>
+      </span>
+    </div>
+
+    <div id="content">
+        <h2><span>操</span><span>作</span><span>结</span>果</h2>
+
+        <div id="a">
+            <h2><%=message%></h2>
+            <h2><a  href="/" >return.</a></h2>
+        </div>
+
+        <img src="/images/u55.png">
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+<%- include bheader.ejs%>
+
+<div class="container">
+    <%for(var v in data){%>
+    <div class="row"><div class="col-md-12">
+            <p><%=v%></p><strong><%=data[v]%></strong>
+        </div></div>
+   <% }%>
+
+</div>
+<%- include bfooter.ejs%>

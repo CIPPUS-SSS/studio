@@ -1,0 +1,30 @@
+<% include theader%>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/tongdaozhongren.css">
+</head>
+
+<body>
+<%- include top %>
+<%- include header %>
+<%- include nav%>
+
+<div id="con">
+    <%- include leftnav%>
+    <div class="contentnav">
+      <span>
+        <a href="/">螺丝工作室个人管理 ></a>
+        <a href="/gerenziliao">个人资料 ></a>
+        <a href="/tongdaozhongren">同道中人</a>
+      </span>
+    </div>
+    <div id="content">
+        <h2><span>同</span><span>道</span><span>中</span>人</h2>
+        <% for(var i=0;i<data.length;i++){
+                for(var j=0;j<data[i].skowners.length;j++){%>
+        <p><%=data[i].skowners[j].uname%> 跟你一样喜欢<%=data[i].skname%></p>
+        <%}}%>
+    </div>
+</div>
+
+</body>
+
+</html>

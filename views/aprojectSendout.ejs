@@ -1,0 +1,67 @@
+<%- include bheader.ejs%>
+
+<div class="container">
+    <%if(typeof(docs)== 'object') docs.forEach(function(v){ %>
+    <div class="row"><div class="col-md-12">
+            <p><%=v%></p>
+        </div></div>
+   <% });%>
+
+</div>
+<div class="container">
+    <div class="row">
+        <form role="form" class="form-horizontal" action="" method="post">
+            <div class="form-group col-md-4">
+                <label class="control-label" for="ptitle">标题</label>
+                <input type="text" class="form-control" id="ptitle" name="ptitle">
+            </div>
+            atitle
+            <div class="form-group col-md-4">
+                <label class="control-label" for="pcontent">内容</label>
+                <input type="text" class="form-control" id="pcontent" name="pcontent">
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label" for="pleader">项目总管</label>
+                <input type="text" class="form-control" id="pleader" name="pleader">
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label" for="pmembers">项目成员</label>
+                <input type="text" class="form-control" id="pmembers" name="pmembers">
+                <input type="text" class="form-control"  name="pmembers">
+                <input type="text" class="form-control"  name="pmembers">
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label" for="ptype">项目类型</label>
+                <input type="text" class="form-control" id="ptype" name="ptype">
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label" for="pstaute">项目状态</label>
+                <input type="text" class="form-control" id="pstaute" name="pstaute">
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label" for="pdocs">项目文档</label>
+                <input type="text" class="form-control" id="pdocs" name="pdocs">
+                <input type="text" class="form-control"  name="pdocs">
+                <input type="text" class="form-control"  name="pdocs">
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label" for="ppubTime">发布时间</label>
+                <input type="date" class="form-control" id="ppubTime" name="ppubTime">
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label" for="pstartTime">开始时间</label>
+                <input type="date" class="form-control" id="pstartTime" name="pstartTime">
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label" for="pfinishTime">结束时间</label>
+                <input type="date" class="form-control" id="pfinishTime" name="pfinishTime">
+            </div>
+
+            <div class="col-md-5">
+                <button type="submit" class="btn btn-default center-block">提交</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include bfooter.ejs%>

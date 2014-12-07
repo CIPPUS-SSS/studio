@@ -1,0 +1,21 @@
+<%-include header %>
+<div style="padding:0;margin:0;">
+
+
+    <h1>Office Info</h1>
+    <ul>
+
+         <li>总访问量:<%=data.svisited%>次</li>
+        <li>今日访问:<%=data.svisitedToday%>次</li>
+        <li>成员人数:<%=data.totalNum%>人</li>
+        <% data.groups.forEach(function(g){%>
+        <li><span><%=g.name%>:  <%=g.num%></span></li>
+        <%});%>
+        <li>新闻总数:<%=data.newsNum%>次</li>
+        <li>大事件总数:<%=data.eventsNum%>次</li>
+        <li>成果总数:<%=data.achievementsNum%>次</li>
+        <li>榜样总数:<%=data.examplesNum%>次</li>
+        <li>招新状态:<%=data.staute%></li>
+    </ul>
+</div>
+ <%-include footer%>

@@ -1,0 +1,65 @@
+<%- include bheader.ejs%>
+
+<div class="container">
+    <%if(typeof(docs)== 'object'){%>
+    <%for( i=0;i<docs.length;i++){%>
+    <div class="row"><div class="col-md-12">
+      <p><%=docs[i]%></p>
+    </div></div>
+    <%}}%>
+    <div class="row">
+        <form class="form-horizontal" action="" method="post">
+            <div class="form-group">
+                <label for="group" class="control-label">组别</label>
+                <input type="text" class="col-md-3 form-control" id="group" name="group">
+            </div>
+            <div class="form-group">
+                <label for="leader" class="control-label">发布者</label>
+                <input type="text" class="col-md-3 form-control" id="leader" name="leader">
+            </div>
+            <div class="form-group">
+                <label for="content" class="control-label">内容</label>
+                <input type="text" class="col-md-3 form-control" id="content" name="content">
+            </div>
+            <div class="form-group">
+                <label for="date" class="control-label">时间</label>
+                <input type="date" class="col-md-3 form-control" id="date" name="date">
+            </div>
+            <div class="form-group">
+                <label for="pic" class="control-label">图片</label>
+                <input type="text" class="col-md-3 form-control" id="pic" name="pic">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">Ok</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!--<div class="container">-->
+    <!--<div class="row">-->
+        <!--<form role="form" class="form-horizontal" action="" method="post">-->
+            <!--<div class="form-group col-md-4">-->
+                <!--<label class="control-label" for="atitle">标题</label>-->
+                <!--<input type="text" class="form-control" id="atitle" name="atitle">-->
+            <!--</div>-->
+            <!--atitle-->
+            <!--<div class="form-group col-md-4">-->
+                <!--<label class="control-label" for="acontent">内容</label>-->
+                <!--<input type="text" class="form-control" id="acontent" name="acontent">-->
+            <!--</div>-->
+            <!--<div class="form-group col-md-4">-->
+                <!--<label class="control-label" for="apic">配图</label>-->
+                <!--<input type="text" class="form-control" id="apic" name="apic">-->
+            <!--</div>-->
+            <!--<div class="form-group col-md-4">-->
+                <!--<label class="control-label" for="atime">时间</label>-->
+                <!--<input type="date" class="form-control" id="atime" name="atime">-->
+            <!--</div>-->
+            <!--<div class="col-md-5">-->
+                <!--<button type="submit" class="btn btn-default center-block">提交</button>-->
+            <!--</div>-->
+        <!--</form>-->
+    <!--</div>-->
+<!--</div>-->
+
+<%- include bfooter.ejs%>

@@ -1,0 +1,63 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/top.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/leftnav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/tianjiayonghu.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+
+    <script type="text/javascript" src="/javascripts/tianjiayonghu.js"></script>
+
+</head>
+
+
+<body>
+<%- include top%>
+<%- include header%>
+<%- include nav%>
+<div id="con">
+    <%- include leftnav%>
+
+    <div class="contentnav">
+      <span>
+        <a href="/">螺丝工作室个人管理 ></a>
+        <a href="/shenqingxiangmu">申请项目</a>
+        <a href="#"></a>
+      </span>
+
+    </div>
+
+    <div id="content">
+        <h2><span>添 </span><span>加 </span><span>用 </span>户 </h2>
+        <form action="" method="post">
+        <p class="p1" style="margin-top:50px;">姓名：<input type="text" name="username" value=""></p>
+        <p class="p1">学号：<input type="text" name="uid" value=""></p>
+        <p class="p1">密码：<input id="mi1" type="password" name="password" value=""></p>
+        <p class="p1" style="margin-left:48px">确认密码：<input id="mi2" type="text" value="ss"><span id="xian"> 两次密码输入不同！</span></p>
+        <p id="p3">电子邮箱：<input type="email" name="email" value=""></p>
+        <p class="p1">组别：<select id="select1" name="group">
+                <%for(var i=0;i<data.length;i++){%>
+                <option value="<%=data[i]._id%>"><%=data[i].gname%></option>
+                <%}%>
+
+            </select></p>
+        <p class="p1">角色：<input type="radio" name="role" value="2">普通成员
+            <input class="nian" type="radio" name="role" value="1">管理员
+            <input class="nian"  type="radio" name="role" value="0">超级管理员
+        </p>
+        <p class="p1">年级：<input type="radio" name="grade">09
+            <input class="nian"  type="radio" name="grade">10
+            <input class="nian"  type="radio" name="grade">11<br>
+            <input style="margin-left:52px;" type="radio" name="grade">12
+            <input class="nian"  type="radio" name="grade">13
+            <input class="nian"  type="radio" name="grade">14</p>
+        <p class="p1">性别：<input type="radio" value="1" name="sex">男
+            <input class="nian"  type="radio" value="1" name="sex">女</p>
+        <img id="touxiang" src="/images/u67.png">
+        <p class="p1"><input id="que" type="submit" value="完成"></p>
+        </form>
+    </div>
+</div>
+</body>

@@ -1,0 +1,37 @@
+<%- include bheader.ejs%>
+
+<div class="container">
+    <% docs.forEach(function(v){ %>
+    <div class="row"><div class="col-md-12">
+            <p><%=v%></p>
+        </div></div>
+   <% });%>
+
+</div>
+<div class="container">
+    <div class="row">
+        <form role="form" class="form-horizontal" action="" method="post">
+            <div class="form-group col-md-4">
+                <label class="control-label" for="ntitle">新闻标题</label>
+                <input type="text" class="form-control" id="ntitle" name="ntitle">
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label" for="npublisher">发布人</label>
+                <input type="text" class="form-control" id="npublisher" name="npublisher">
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label" for="ncontent">新闻内容</label>
+                <input type="text" class="form-control" id="ncontent" name="ncontent">
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label" for="npic">新闻配图</label>
+                <input type="text" class="form-control" id="npic" name="npic">
+            </div>
+            <div class="col-md-5">
+                <button type="submit" class="btn btn-default center-block">提交</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include bfooter.ejs%>

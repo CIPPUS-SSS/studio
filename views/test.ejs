@@ -1,0 +1,26 @@
+<!doctype html>
+        <html>
+<head>
+    <script type="text/javascript" src="/javascript/jquery-2.1.1.js"></script>
+    <script type="text/javascript">
+        $(window).ready(function(){
+            $("#bb").click(function(){
+                $.ajax({
+                    data:{data:"hello"},
+                    url:"http://localhost:3000/test/json",
+                    dataType:'json',
+                    cache:false,
+                    timeout:5000,
+                    success: function(data){
+                        var data = $.parseJSON(data);
+                        alert(data.message);
+                    },
+                    error:function(jqXHR,textStatus,errorThrown){
+                        alert('error'+ textStatus+ " " + errorThrown);
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+        </html>

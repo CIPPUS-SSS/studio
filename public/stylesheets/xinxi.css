@@ -1,0 +1,70 @@
+p{
+	font-family: 微软雅黑;
+}
+.p1{
+	margin-left: 80px;
+}
+
+#p3{
+	margin-left: 48px;
+}
+#select1{
+	width: 80px;
+	height: 22px;
+}
+.nian{
+	margin-left: 28px;
+}
+
+#touxiang{
+	position: absolute;
+	left: 640px;
+	top: 360px;
+}
+
+#a{
+	margin-left: 80px;
+}
+
+#a input{
+	width: 70px;
+	height: 25px;
+	vertical-align: middle;
+	text-align: center;
+}
+img{
+
+	margin-right: 10px;
+}
+#qd{
+	margin-left: 8px;
+}
+#s{
+	position: absolute;
+	top: 890px;
+	left: 640px;
+	width: 240px;
+	height: 180px;
+	background: rgba(0,0,0,0.1);
+    border: 1px solid #fff;
+}
+#s p{
+	margin-left: 40px;
+	margin-top: 10px;
+	margin-bottom: 16px;
+	font-size: 25px;
+}
+#s input{
+	width: 100px;
+	margin-left: 66px;
+	margin-bottom: 10px;
+}
+#que{
+	font-size: 15px;
+	font-family: 微软雅黑;
+	width: 100px;
+	height: 25px;
+}
+#xian{
+	font-family: 微软雅黑;
+}

@@ -1,0 +1,48 @@
+h2 span{
+	padding-right: 5px;
+}
+
+p{
+	font-family: "微软雅黑";
+}
+
+#a{
+
+	margin-left: 80px;
+}
+
+#a input{
+	width: 70px;
+	height: 25px;
+	vertical-align: middle;
+	text-align: center;
+}
+img{
+	margin-right: 10px;
+}
+#qd{
+	margin-left: 8px;
+}
+#s{
+	position: absolute;
+	top: 370px;
+	left: 640px;
+	width: 240px;
+	height: 180px;
+	background: rgba(0,0,0,0.1);
+    border: 1px solid #fff;
+}
+#s p{
+	margin-left: 40px;
+	margin-top: 10px;
+	margin-bottom: 16px;
+	font-size: 25px;
+}
+#s input{
+	width: 100px;
+	margin-left: 66px;
+	margin-bottom: 10px;
+}
+img .zi{
+	margin-right: 20px;
+}

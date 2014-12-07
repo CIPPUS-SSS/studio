@@ -1,0 +1,33 @@
+<% include theader%>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/xiugaimima.css">
+
+    <script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
+
+    <script type="text/javascript" src="/javascripts/xiugaimima.js"></script>
+</head>
+
+<body>
+<%- include top %>
+<%- include header %>
+<%- include nav%>
+<div id="con">
+    <%- include leftnav%>
+    <div class="contentnav">
+      <span>
+        <a href="/user/">螺丝工作室个人管理 ></a>
+        <a href="info">个人资料 ></a>
+        <a href="pswEdit">修改密码</a>
+      </span>
+    </div>
+    <div id="content">
+        <h2><span>修</span><span>改</span><span>密</span>码</h2>
+        <form action="" onsubmit="return validate_form(this);" method="post">
+        <p>原密码：<input class="a" type="password" name="oPwd"></p>
+        <p>新密码：<input id="xin1" class="a" type="password" name="nPwd"></p>
+        <p>确认密码：<input id="xin2" type="password" name="que"><span id="xian"> 两次密码输入不同！</span></p>
+        <p><input type="submit" value="提交"></p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

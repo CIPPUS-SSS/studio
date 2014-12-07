@@ -1,0 +1,14 @@
+#content span{
+	padding-right: 5px;
+}
+#content p{
+	padding-left: 80px;
+	font-family: "微软雅黑";
+}
+#content input{
+	padding-left: 10px;
+	
+}
+.a{
+	margin-left: 16px;
+}

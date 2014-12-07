@@ -1,0 +1,87 @@
+<html>
+
+<head>
+    <style type="text/css">
+        h1{
+            font-size: 50px;
+            font-fapasswordly: 华文新隶;
+            padding-top: 20px;
+            margin-left: 130px;
+        }
+        #content{
+            height: 400px;
+            margin-top: 100px;
+            margin-left: 400px;
+            margin-right: 400px;
+            background-color: #CCCCCC;
+            font-fapasswordly: 微软雅黑;
+        }
+        form{
+            padding-top: 20px;
+            margin-left: 140px;
+        }
+        input{
+            margin-bottom: 30px;
+            height: 30px;
+        }
+        #a{
+            margin-left: 16px;
+        }
+        #b{
+            margin-left: 60px;
+            height: 30px;
+            width: 100px;
+        }
+        img{
+            position: absolute;
+        }
+    </style>
+
+    <script type="text/javascript">
+        function validate_required(field,alerttxt)
+        {
+            with (field)
+            {
+                if (value==null||value=="")
+                {alert(alerttxt);return false}
+                else {return true}
+            }
+        }
+
+        function validate_form(thisform)
+        {
+            with (thisform)
+            {
+                if (validate_required(username,"用户名未填写!")==false)
+                {username.focus();return false}
+                if (validate_required(password,"密码未填写!")==false)
+                {password.focus();return false}
+                if (validate_required(yan,"验证码未填写!")==false)
+                {yan.focus();return false}
+            }
+        }
+
+
+
+    </script>
+
+
+</head>
+
+<body>
+
+<div id="content">
+    <h1>用 户 登 录</h1>
+    <form action="" onsubmit="return validate_form(this)" method="post">
+        用户名<input type="text" name="username"><br>
+        密码<input id="a" type="text" name="password"><br>
+        验证码<input type="text" name="yan"><img src="/images/u12.png"><br>
+        <input id="b" type="submit" value="登陆">
+
+    </form>
+
+</div>
+</body>
+
+
+</html>

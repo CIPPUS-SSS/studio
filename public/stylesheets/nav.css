@@ -1,0 +1,19 @@
+/*     顶导航     */
+#nav{
+	margin: 0 auto;
+	background-color: #D8E0E3;
+	height: 44px;
+	width: 1166px;
+    border: 1px solid #fff;
+    border-left: none;
+    border-right: none;
+}
+#nav li{
+	list-style-type: none;
+	float: left;
+	padding-right: 50px;
+	padding-top: 10px;
+}
+#nav ul{
+	padding-left: 700px;
+}

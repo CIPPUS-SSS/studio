@@ -1,0 +1,18 @@
+<%-include bheader %>
+<form role="form" class="form" action="" method="post">
+
+    <% for(var i in data){%>
+    <div class="form-group">
+        <label class="control-label" for="msg"><%=i%>==><%=data[i]%></label>
+        <input type="checkbox" class="form-control" value=<%=data[i].smid%> id="msg" name="msg">同意
+        <input type="checkbox" class="form-control" value=<%=data[i].smid%> id="msgno" name="msgno">不同意
+
+    </div>
+
+    <%}%>
+    <div class="form-group">
+        <button class="btn btn-default center-block" type="submit">确认审核</button>
+    </div>
+</form>
+
+<%-include bfooter%>

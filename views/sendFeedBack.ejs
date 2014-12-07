@@ -1,0 +1,36 @@
+<% include theader%>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/fasongfankui.css">
+
+    <script type="text/javascript" src="/javascripts/link2.js"></script>
+    <script type="text/javascript" src="/javascripts/fasongfankui.js"></script>
+
+
+</head>
+
+<body>
+<%- include top %>
+<%- include header %>
+<%- include nav%>
+<div id="con">
+    <%- include leftnav%>
+    <div class="contentnav">
+      <span>
+        <a href="/user/">螺丝工作室个人管理 ></a>
+        <a href="sendFeedBack">发送反馈</a>
+        <a href="#"></a>
+      </span>
+    </div>
+
+    <div id="content">
+        <h2><span>发</span><span>送</span><span>反</span><span>馈</span></h2>
+        <div id="textarea">
+            <form action="" onsubmit="return validate_form(this)" method="post">
+                <textarea cols="40" rows="10" name="content"></textarea>
+                <input id="textinput" type="submit" value="提交">
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

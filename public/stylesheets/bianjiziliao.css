@@ -1,0 +1,21 @@
+#content span{
+	padding-right: 5px;
+}
+#content p{
+	padding-left: 80px;
+	font-family: 微软雅黑;
+}
+#a{
+	width: 340px;
+	float: left;
+}
+#content img{
+	margin-left: 100px;
+}
+#tj{
+	width: 80px;
+	height: 25px;
+}
+.i4{
+	margin-left: 32px;
+}

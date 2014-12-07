@@ -1,0 +1,27 @@
+<%-include bheader %>
+
+        <% if(typeof(skills)=='object'){
+        skills.forEach(function(skill){%>
+            <li>已有技能:<%=skill%></li>
+        <%});%>
+         <% }else if(typeof(skills)=='string'){%>
+          <li>已有技能:<%=skills%></li>
+        <%}else{%>
+            <li>目前没有技能..</li>
+        <%}%>
+<form role="form" class="form" action="" method="post">
+
+<% allSkills.forEach(function(skill){%>
+    <div class="form-group">
+        <label class="control-label" for="skills"><%=skill.skname%></label>
+        <div class="col-md-6">
+            <input type="checkbox" class="form-control"  id="skills" name="skills" value="<%=skill._id%>">
+        </div>
+    </div>
+    <%});%>
+    <div class="form-group">
+        <button class="btn btn-default center-block" type="submit">确认</button>
+    </div>
+</form>
+
+<%-include bfooter%>

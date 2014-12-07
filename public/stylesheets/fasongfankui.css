@@ -1,0 +1,17 @@
+#content span{
+	padding-right: 5px;
+}
+#textarea{
+	padding-left: 80px;
+}
+#content textarea{
+	width: 850px;
+	height: 200px;
+    font-family: "微软雅黑";
+    font-size: 25px;
+}
+#textinput{
+	width: 100px;
+	height: 25;
+	margin-top: 10px;
+}

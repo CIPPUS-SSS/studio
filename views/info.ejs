@@ -1,0 +1,36 @@
+<%include theader%>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
+</head>
+<body>
+<%- include top %>
+<%- include header %>
+<%- include nav%>
+<div id="con">
+    <%- include leftnav%>
+    <div class="contentnav">
+      <span>
+        <a href="/user/">螺丝工作室个人管理 ></a>
+        <a href="info">个人资料</a>
+        <a href="#"></a>
+      </span>
+    </div>
+
+
+    <div id="content">
+
+        <h2><span>个</span><span>人</span><span>资</span>料</h2>
+        <div id="a">
+            <p>姓名：<%=userone.uname%></p>
+            <p>学号：<%=userone.uid%></p>
+            <p>电子邮箱：<%=userone.uemail%></p>
+            <p>昵称：<%=userone.unickname%></p>
+            <p>年级：<%=userone.ugrade%></p>
+            <p>组别：<%=userone.ugroupId%></p>
+            <p>角色：<%=userone.uroll%></p>
+        </div>
+        <img src="/images/u55.png">
+    </div>
+</div>
+
+</body>
+</html>

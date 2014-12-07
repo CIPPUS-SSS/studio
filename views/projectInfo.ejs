@@ -1,0 +1,35 @@
+<html>
+<head>
+    <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/top.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/leftnav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/shenqingxiangmu.css">
+
+
+    <script type="text/javascript" src="/javascripts/link.js"></script>
+</head>
+
+<body>
+<%- include top %>
+<%- include header %>
+<%- include nav%>
+<div id="con">
+    <%- include leftnav%>
+    <div class="contentnav">
+      <span>
+        <a href="/">螺丝工作室个人管理 ></a>
+        <a href="/shenqingxiangmu">申请项目</a>
+        <a href="#"></a>
+      </span>
+    </div>
+    <div id="content">
+        <p>我已完成的项目：<%=data.pTaking%>个</p>
+        <p>我正在做的项目：<%=data.pTaked%>个</p>
+       <p>正在招募人员的项目：<%=data.pGoing%>个</p>
+    </div>
+</div>
+</body>
+
+</html>

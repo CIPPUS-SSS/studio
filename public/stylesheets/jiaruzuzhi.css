@@ -1,0 +1,32 @@
+#a span{
+	padding-right: 5px;
+}
+#b{
+	margin-left: 80px;
+	font-family: "微软雅黑";
+}
+.radio{
+	margin-right: 40px;
+}
+#c{
+	margin-left: 138px;
+	margin-top: 10px;
+}
+#area{
+	top: 356px;
+	left: 524px;
+	position: absolute;
+	width: 400px;
+	height: 250px;
+    font-size:25px;
+    font-family:"微软雅黑";
+}
+#tj{
+	margin-left: 80px;
+	margin-top: 16px;
+	width: 100px;
+	height: 26px;
+}
+#b input{
+    margin-left: 100px;
+}

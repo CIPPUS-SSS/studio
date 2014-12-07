@@ -1,0 +1,41 @@
+<%include theader%>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bianjiziliao.css">
+    <script type="text/javascript" src="/javascripts/bianjiziliao.js"></script>
+
+</head>
+
+<body>
+<%- include top %>
+<%- include header %>
+<%- include nav%>
+<div id="con">
+    <%- include leftnav%>
+    <div class="contentnav">
+      <span>
+        <a href="/user/">螺丝工作室个人管理 ></a>
+        <a href="info">个人资料 ></a>
+        <a href="infoEdit">编辑资料</a>
+      </span>
+    </div>
+
+    <div id="content">
+        <h2><span>编</span><span>辑</span><span>资</span>料</h2>
+
+        <div id="a">
+            <form action="" onsubmit="return validate_form(this);" method="post">
+                <p>姓名：<input name="userName" class="i4" type="text" value="<%=userone.uname%>" readonly></p>
+                <p>学号：<input name="mid" class="i4" type="text" value="<%=userone.uid%>" readonly></p>
+                <p>电子邮箱：<input name="userEmail" value="<%=userone.uemail%>" type="email"></p>
+                <p>昵称：<input name="userNickName"  class="i4" value="<%=userone.unickname%>" type="text"></p>
+                <p>年级：<input name="userGrade" value="<%=userone.ugrade%>" class="i4" type="text" readonly></p>
+                <p><input id="tj" type="submit" value="提交"></p>
+                <p><input id="tj" type="reset" value="reset"></p>
+            </form>
+        </div>
+
+        <img src="/images/u55.png">
+    </div>
+</div>
+</body>
+
+</html>

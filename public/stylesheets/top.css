@@ -1,0 +1,16 @@
+#top{
+    margin: 0 auto;
+	background-color: #169BD5;
+	width: 1166px;
+	height: 40px;
+}
+
+
+#top span{
+	float: right;
+	margin-right: 80px;
+	margin-left: 20px;
+	margin-top: 10px;
+	vertical-align: middle;
+	font-family: 微软雅黑;
+}

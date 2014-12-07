@@ -1,0 +1,125 @@
+<% include theader%>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/xiangmushenqing.css">
+
+
+    <script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="/javascripts/xiangmushenqing.js"></script>
+    <script type="text/javascript" src="/javascripts/link.js"></script>
+</head>
+
+<body>
+<%- include top %>
+<%- include header %>
+<%- include nav%>
+<div id="con">
+    <%- include leftnav%>
+    <div class="contentnav">
+      <span>
+        <a href="/user/">螺丝工作室个人管理 ></a>
+        <a href="projectInfo">申请项目 ></a>
+        <a href="projectsList">项目申请</a>
+      </span>
+    </div>
+    <div id="content">
+        <div id="b">
+            <span>项</span><span>目</span><span>申</span><span>请</span>
+            <select class="field">
+                <option value="1">geek创意</option>
+                <option value="2">科研项目</option>
+                <option value="3">外包项目</option>
+                <option value="4">校园作品</option>
+            </select>
+        </div>
+
+        <div id="text">
+            <span class="span1">工作室成立</span>
+            <span class="span2">类型：geek创意</span>
+            <span class="span3">状态：正在招募中</span>
+            <span class="span4">更新日期:2014-9-18 21:22</span>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
+            <span class="span5">成员：</span>
+            <span class="span5">小明</span>
+            <span class="span5">小刚</span>
+            <span class="span5">大飞哥</span>
+            <span class="span6">附件：</span>
+            <a href="#"><span class="span7">需求文档</span></a>
+
+            <span class="span8"><input id="submit0" type="submit" value="加 入"></span>
+            <textarea></textarea>
+
+        </div>
+        <div id="text1">
+            <span class="span1">工作室成立</span>
+            <span class="span2">类型：科研项目</span>
+            <span class="span3">状态：正在招募中</span>
+            <span class="span4">更新日期:2014-9-18 21:22</span>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
+            <span class="span5">成员：</span>
+            <span class="span5">小明</span>
+            <span class="span5">小刚</span>
+            <span class="span5">大飞哥</span>
+            <span class="span6">附件：</span>
+            <a href="#"><span class="span7">需求文档</span></a>
+            <span class="span8"><input id="submit1" type="submit" value="加 入"></span>
+            <textarea></textarea>
+        </div>
+        <div id="text2">
+            <span class="span1">工作室成立</span>
+            <span class="span2">类型：外包项目</span>
+            <span class="span3">状态：正在招募中</span>
+            <span class="span4">更新日期:2014-9-18 21:22</span>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
+            <span class="span5">成员：</span>
+            <span class="span5">小明</span>
+            <span class="span5">小刚</span>
+            <span class="span5">大飞哥</span>
+            <span class="span6">附件：</span>
+            <a href="#"><span class="span7">需求文档</span></a>
+            <span class="span8"><input id="submit2" type="submit" value="加 入"></span>
+            <textarea></textarea>
+        </div>
+        <div id="text3">
+            <span class="span1">工作室成立</span>
+            <span class="span2">类型：校园作品</span>
+            <span class="span3">状态：正在招募中</span>
+            <span class="span4">更新日期:2014-9-18 21:22</span>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
+            <span class="span5">成员：</span>
+            <span class="span5">小明</span>
+            <span class="span5">小刚</span>
+            <span class="span5">大飞哥</span>
+            <span class="span6">附件：</span>
+            <a href="#"><span class="span7">需求文档</span></a>
+            <span class="span8"><input id="submit3" type="submit" value="加 入"></span>
+            <textarea></textarea>
+        </div>
+
+        <% for(var i=0; i<data.length;i++){%>
+        <div id="text3">
+            <span class="span1"><%=data[i].ptitle%></span>
+                <span class="span2">类型：<%=data[i].ptype%></span>
+            <span class="span3">状态：<%=data[i].pstaute%></span>
+            <span class="span4">(wei)更新日期:2014-9-18 21:22</span>
+            <p><%=data[i].pcontent%></p>
+            <span class="span5">成员：</span>
+            <%for (var j=0;j<data[i].pmembers.length;j++){%>
+            <span class="span5"><%data[i].pmembers[j].uname%></span>
+                <%}%>
+                <span id="span6">附件：</span>
+                <%for (var j=0;j<data[i].pdocs.length;j++){%>
+                <a href="<%data[i].pdocs[j]%>"><span class="span7">需求文档</span></a>
+                <%}%>
+                <form action="joinProjects" method="post">
+                    <input type="hidden" value="<%=data[i]._id %>" name="ppid">
+                    <span class="span8"><input id="submit3" type="submit" value="加 入"></span>
+                    <textarea hidden></textarea>
+                </form>
+
+        </div>
+        <%}%>
+
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+#header img{
+	float: left;
+	padding-top:39px;
+	padding-left: 44px;
+}
+#headerspan{
+	padding-left: 200px;
+}
+
+#header h1{
+	font-family: 微软雅黑;
+	float: left;
+	padding-top: 16px;
+	padding-left: 20px; 
+	font-size: 50px;
+	color: #909090;
+}
+
+#header{
+	margin: 0 auto;
+	background-color: #D8E0E3;
+	height:160px;
+	width:1166px;
+	color:#fff;
+}

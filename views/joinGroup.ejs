@@ -1,0 +1,43 @@
+<%include theader%>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/jiaruzuzhi.css">
+
+    <script type="text/javascript" src="/javascripts/jiaruzuzhi.js"></script>
+</head>
+
+<body>
+<%- include top %>
+<%- include header %>
+<%- include nav%>
+<div id="con">
+    <%- include leftnav%>
+    <div class="contentnav">
+      <span>
+        <a href="/user/">螺丝工作室个人管理 ></a>
+        <a href="info">个人资料 ></a>
+        <a href="joinGroup">加入组织</a>
+      </span>
+    </div>
+    <div id="content">
+        <div id="a"><h2><span>加</span><span>入</span><span>组</span><span>织</span></h2></div>
+
+       <span id="b">
+       
+         <span>组别：</span><br>
+         <% for(var i=0;i<data.length;i++){%>
+           <input type="radio" name="groupId"  value="<%=data[i]._id%>"><span class="radio"><%=data[i].gname%></span><br>
+           <%};%>
+
+
+           <form action="" onsubmit="return validate_form(this)" method="post">
+               <textarea name="content" id="area" placeholder="加入理由"></textarea>
+               <input id="tj" type="submit" value="提 交">
+           </form>
+       </span>
+
+
+
+    </div>
+</div>
+</body>
+
+</html>
