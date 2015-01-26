@@ -22,13 +22,12 @@
 
        <span id="b">
        
-         <span>组别：</span><br>
-         <% for(var i=0;i<data.length;i++){%>
-           <input type="radio" name="groupId"  value="<%=data[i]._id%>"><span class="radio"><%=data[i].gname%></span><br>
-           <%};%>
-
 
            <form action="" onsubmit="return validate_form(this)" method="post">
+               <span>组别：</span><br>
+               <% for(var i=0;i<data.length;i++){%>
+               <input type="radio" name="groupId"  value="<%=data[i]._id%>"><span class="radio"><%=data[i].gname%></span><br>
+               <%}%>
                <textarea name="content" id="area" placeholder="加入理由"></textarea>
                <input id="tj" type="submit" value="提 交">
            </form>

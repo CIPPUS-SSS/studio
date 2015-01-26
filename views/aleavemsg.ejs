@@ -1,18 +1,139 @@
-<%-include bheader %>
-<form role="form" class="form" action="" method="post">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>游客留言</title>
 
-    <% for(var i in data){%>
-    <div class="form-group">
-        <label class="control-label" for="msg"><%=i%>==><%=data[i]%></label>
-        <input type="checkbox" class="form-control" value=<%=data[i].smid%> id="msg" name="msg">同意
-        <input type="checkbox" class="form-control" value=<%=data[i].smid%> id="msgno" name="msgno">不同意
+
+    <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/top.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/aleftnav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/a_2youkeliuyan.css">
+
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="/javascripts/link_tongzhi.js"></script>
+    <script type="text/javascript" src="/javascripts/link_youkeliuyan.js"></script>
+
+</head>
+
+
+<body>
+
+<%- include top %>
+<%- include aheader %>
+<!-- 导航条  -->
+<div id="nav">
+<ul>
+    <li><a href="info">后台管理</a></li>
+    <li><a href="projectMy">通知</a></li>
+    <li><a href="sendFeedBack">游客留言</a></li>
+</ul>
+</div>
+
+<%- include aleftnav%>
+
+
+<div class="contentnav">
+      <span>
+        <a href="/admin/">螺丝工作室后台管理 ></a>
+        <a href="/admin/tip/">通知 ></a>
+        <a href="leaveMsg">游客留言</a>
+      </span>
+</div>
+
+<div id="a">
+    <div id="b">
+        <h>游客留言列表</h>
+        <select class="op">
+            <option class="op" value="0" >未处理</option>
+            <option class="op" value="1" >已处理</option>
+        </select>
+
+        <div id="weichuli">
+            <span class="s1" > <a id="w_unpass">未通过审核</a>      </span>
+            <span class="s1" > <a id="w_pass">通过审核</a>          </span>
+            <span class="s1" > <a id="w_setall">全选</a>            </span>
+         </div>
+        <div id="yichuli">
+            <span class="s1" ><a id="y_shanchu">删除</a></span>
+            <span class="s1" ><a id="y_quanxuan">全选</a></span>
+        </div>
+
+
+        <%if(typeof(data)=='object'){%>
+        <%for(var i=0;i<data.length;i++){%>
+        <% if(data[i].mstaute==null){continue;}
+           else if(data[i].mstaute==0){%>
+        <div class="div1">
+                      <span>from <%=data[i].uname%>    时间:<%=data[i].mtime%>
+                          <span  class="n">未处理</span>
+                      </span>
+           <form action="" method="post" class="form">
+             <input type="checkbox" class="input_checkbox"  value="<%=data[i]._id%>" name="msgs">
+             <input type="hidden"  value="<%=data[i]._id%>" name="msg">
+             <input type="image" class="input0" src="/images/u53.png"  onclick="return false;" value="0">
+             <input type="image" class="input1" src="/images/dui.png" onclick="return false;" value="1">
+           </form>
+             </br>
+             <p4><%=data[i].mcontent%>
+             </p4>
+         </div>
+        <%}else{%>
+        <div class ="div2">
+            <span>from <%=data[i].uname%>    时间:<%=data[i].mtime%> </span>
+            <span  class="y">已处理</span>
+            <form action="" method="post">
+            <input type="checkbox" class="input_checkbox2"  value="<%=data[i]._id%>" name="msgs">
+            <input type="hidden" value="<%=data[i]._id%>" name="msg">
+            <input type="image" class="input2"  onclick = "return false;" src="/images/u53.png">
+            </form>
+            <span  class="right2"><a class="fabiao">发布回复</a></span>
+            <span  class="right1"><a class="chakan">共有<%=data[i].reversions.length%>条回复</a></span>
+            </br>
+            <p4>
+                <%=data[i].mcontent%>
+            </p4>
+            <div class="liuyankuang" >
+                <!-- 留言区 -->
+                <%if(data[i].reversions!=null){%>
+                <%for(var j=0;j<data[i].reversions.length;j++){%>
+                <div class="liuyan">
+                    <span> <%=data[i].reversions[j].uname%>[<%=data[i].reversions[j].mtime%>]:<%=data[i].reversions[j].mcontent%></span>
+                    <form action="" method="post">
+                    <input type="hidden" value="<%=data[i].reversions[j]._id%>" name="id">
+                    <input type="image"  class="input3" onclick = "return false;" src="/images/u53.png" >
+                    </form>
+                </div>
+                <%}}%>
+
+
+                <div id ="liuyan_moban" >
+                    <span class="liuyan_text"></span>
+                    <input type="image"   class="input0" src="/images/u53.png" >
+                </div>
+                <!-- 编辑区 -->
+                <div class ="textarea" id="msg<%=i%>">
+                    <form action="" method="post">
+                    <input type="hidden" name="id" value="<%=data[i]._id%>">
+                    大名:<input type="text" name="uname"><br>
+                    email:<input type="email" name="uemail"><br>
+                    留言:<textarea class="text" style="overflow:hidden;" name="content">
+                    </textarea>
+                    <input type="image" value="取消" class="quxiao">
+                    <input type="image" class="input4 tijiao" onclick = "return false;" value="提交" >
+                    </form>
+                </div>
+            </div>
+        </div>    <!-- //div2 -->
+
+        <%}}}else{} %>
+
 
     </div>
-
-    <%}%>
-    <div class="form-group">
-        <button class="btn btn-default center-block" type="submit">确认审核</button>
-    </div>
-</form>
-
-<%-include bfooter%>
+</div>
+</body>
+</html>

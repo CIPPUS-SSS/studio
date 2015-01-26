@@ -32,12 +32,13 @@ adminCl.adminData(sname,function(err,data,msg){
 router.get('/tip',function(req,res){
 //var sname=req.session.sname;
   var sname="RoseOffice";
-  adminCl.adminTip(sname,function(err,data){
+  adminCl.adminTips(sname,function(err,data){
       if(err) {
           console.log(err);
           res.render('error',{message:err});
       }
       else{
+          console.log("tip(((((((((((((((((((((");
           res.render('atip',{data:data});
       }
   })
@@ -49,132 +50,346 @@ router.get('/tip',function(req,res){
 router.get('/tip/leaveMsg',function(req,res){
     //var sname=req.session.sname;
     var sname="RoseOffice";
-adminCl.adminMsg(sname,"sleaveMessages",0,function(err,data){
+
+
+adminCl.adminMsg_all(sname,"sleaveMessages",function(err,data){
     if(err) return console.log(err);
     else{
+        console.log(data);
         res.render('aleavemsg',{data:data});
-
     }
 })
 });
 /**
  * 游客留言信息处理..
- * 同意,不同意不能同时选..
+ * 用ajax..
  */
-router.post('/tip/leaveMsg',function(req,res){
+router.post('/tip/leaveMsgOk',function(req,res) {
     //var sname=req.session.sname;
-    var sname="RoseOffice";
-    var msg=req.body.msg;
-    var msgno=req.body.msgno;
-    var i=0;
-
-    mongoose.connect("mongodb://localhost/studio");
-    var db=mongoose.connection;
-    console.log(sname);
-
-    db.on('error',console.error.bind(console,"connect error:"));
-    db.once('open',function() {
-        if (typeof(msg) == 'object') {
-            async.series([
-                function (callback) {
-                    msg.forEach(function (val) {
-                        adminCl.adminMsgOk(sname, "sleaveMessages", val, 1, function (err) {
-                            console.log("调用一次处理函数..");
-                            //adminCl.adminMsgOki(sname,val,1,function(){
-                            console.log('回调函数..');
-                            if (err) {
-                                callback(err);
-                            } else {
-                                callback(null);
-                            }
-                        });
-                    });
-                }
-
-            ], function (err) {
-                i++;
-                if (err) console.log(err);
-                if (i == msg.length) {
-                    db.close();
-                    res.redirect('/admin/tip/leaveMsg');
-                }
-            });
-        } else if (typeof(msg) == 'string') {
-            adminCl.adminMsgOk(sname, "sleaveMessages", msg, 1, function (err) {
-                if (err) {
+    var sname = "RoseOffice";
+    var msg = req.body.msg;
+    adminCl.leavemsg(sname,msg,1,function(err){
+        if (err) {
                     console.log(err);
-                    db.close();
-                    res.render("error", {message: err});
-                } else {
-                    db.close();
-                    res.render('ok', {message: "审核成功.."});
-                }
+                    //res.json({success:0});
+                   res.render("error",{message:err});
+       } else {
+                  //  res.json({success:1});
+            //res.render("ok",{message:"success"});
+            res.redirect("leavemsg");
+       }
+    });
+});
+router.post('/tip/leaveMsgOkJ',function(req,res) {
+    //var sname=req.session.sname;
+    var sname = "RoseOffice";
+    var msg = req.body["msg[]"];
 
-            });
-        }
-        //拒绝消息的处理..
-        else if (typeof(msgno) == 'object') {
-            async.series([
-                function (callback) {
-                    msgno.forEach(function (val) {
-                        adminCl.adminMsgOk(sname, "sleaveMessages", val, 2, function (err) {
-                            console.log("调用一次处理函数..");
-                            //adminCl.adminmsgnoOki(sname,val,1,function(){
-                            console.log('回调函数..');
-                            if (err) {
-                                callback(err);
-                            } else {
-                                callback(null);
-                            }
-                        });
-                    });
-                }
-
-            ], function (err) {
-                i++;
-                if (err) console.log(err);
-                if (i == msgno.length) {
-                    db.close();
-                    res.redirect('/admin/tip/leaveMsg');
-                }
-            });
-        } else if (typeof(msgno) == 'string') {
-            adminCl.adminMsgOk(sname, "sleaveMessages", msgno, 2, function (err) {
-                if (err) {
-                    console.log(err);
-                    db.close();
-                    res.render("error", {message: err});
-                } else {
-                    db.close();
-                    res.render('ok', {message: "审核成功.."});
-                }
-
-            });
+    adminCl.leavemsg(sname,msg,1,function(err){
+        if (err) {
+            console.log(err);
+            res.json({success:0});
         } else {
-            db.close();
-            res.render('error', {message: "未选择任何项.."});
+              res.json({success:1});
         }
     });
 });
-/**
- * 成员反馈界面
- */
-router.get('/tip/feedback',function(req,res){
-    //var sname=req.session.sname;
-    var sname="RoseOffice";
-    adminCl.adminMsg(sname,"sfeedbackMessages",0,function(err,data){
-        if(err) return console.log(err);
-        else{
-            res.render('afeedback',{data:data});
+//游客留言的拒绝ajax接口..
 
+router.post('/tip/leaveMsgNo',function(req,res) {
+    //var sname=req.session.sname;
+    var sname = "RoseOffice";
+    var msg = req.body.msg;
+
+    adminCl.leavemsg(sname,msg,2,function(err){
+        if (err) {
+            console.log(err);
+            res.json({success:0});
+        } else {
+            //res.json({success:1});
+            res.redirect("leavemsg");
+        }
+    });
+});
+router.post('/tip/leaveMsgNoJ',function(req,res) {
+    //var sname=req.session.sname;
+    var sname = "RoseOffice";
+    var msg = req.body["msg[]"];
+
+    adminCl.leavemsg(sname,msg,2,function(err){
+        if (err) {
+            console.log(err);
+            res.json({success:0});
+        } else {
+            res.json({success:1});
+        }
+    });
+});
+
+
+//游客留言的删除处理
+
+router.post('/tip/leaveMsgDel',function(req,res){
+    var ids=req.body.msg;
+    console.log(ids);
+    adminCl.leavemsgDel(ids,function(err){
+        if (err) {
+            console.log(err);
+            //res.json({success:0});
+            res.render("error",{message:err});
+        } else {
+            //  res.json({success:1});
+            //res.render("ok",{message:"success"});
+            res.redirect("leavemsg");
+        }
+    });
+})
+
+router.post('/tip/leaveMsgDelJ',function(req,res){
+    var ids=req.body["msg[]"];
+    console.log(ids);
+    adminCl.leavemsgDel(ids,function(err){
+        if (err) {
+            console.log(err);
+            res.json({success:0});
+        } else {
+            res.json({success:1});
+        }
+    });
+})
+
+router.post('/tip/leaveMsgC',function(req,res){
+    var name=req.body.uname;
+    var email=req.body.uemail;
+    var content=req.body.content;
+    var id=req.body.id;
+    adminCl.leavemsgC(name,email,content,id,function(err){
+        if (err) {
+            console.log(err);
+            //res.json({success:0});
+            res.render("error",{message:err});
+        } else {
+            //  res.json({success:1});
+            //res.render("ok",{message:"success"});
+            res.redirect("leavemsg");
+        }
+    })
+});
+//留言的评论删除..
+router.post('/tip/leaveMsgCDel',function(req,res){
+    var id=req.body.id;
+    console.log(id);
+    adminCl.leavemsgDelC(id,function(err){
+        if (err) {
+            console.log(err);
+            //res.json({success:0});
+            res.render("error",{message:err});
+        } else {
+            //  res.json({success:1});
+            //res.render("ok",{message:"success"});
+            res.redirect("leavemsg");
         }
     })
 });
 
+//router.post('/tip/leaveMsg',function(req,res){
+//    //var sname=req.session.sname;
+//    var sname="RoseOffice";
+//    var msg=req.body.msg;
+//    var msgno=req.body.msgno;
+//    var i=0;
+//
+//    mongoose.connect("mongodb://localhost/studio");
+//    var db=mongoose.connection;
+//    console.log(sname);
+//
+//    db.on('error',console.error.bind(console,"connect error:"));
+//    db.once('open',function() {
+//        if (typeof(msg) == 'object') {
+//            async.series([
+//                function (callback) {
+//                    msg.forEach(function (val) {
+//                        adminCl.adminMsgOk(sname, "sleaveMessages", val, 1, function (err) {
+//                            console.log("调用一次处理函数..");
+//                            //adminCl.adminMsgOki(sname,val,1,function(){
+//                            console.log('回调函数..');
+//                            if (err) {
+//                                callback(err);
+//                            } else {
+//                                callback(null);
+//                            }
+//                        });
+//                    });
+//                }
+//
+//            ], function (err) {
+//                i++;
+//                if (err) console.log(err);
+//                if (i == msg.length) {
+//                    db.close();
+//                    res.redirect('/admin/tip/leaveMsg');
+//                }
+//            });
+//        } else if (typeof(msg) == 'string') {
+//            adminCl.adminMsgOk(sname, "sleaveMessages", msg, 1, function (err) {
+//                if (err) {
+//                    console.log(err);
+//                    db.close();
+//                    res.render("error", {message: err});
+//                } else {
+//                    db.close();
+//                    res.render('ok', {message: "审核成功.."});
+//                }
+//
+//            });
+//        }
+//        //拒绝消息的处理..
+//        else if (typeof(msgno) == 'object') {
+//            async.series([
+//                function (callback) {
+//                    msgno.forEach(function (val) {
+//                        adminCl.adminMsgOk(sname, "sleaveMessages", val, 2, function (err) {
+//                            console.log("调用一次处理函数..");
+//                            //adminCl.adminmsgnoOki(sname,val,1,function(){
+//                            console.log('回调函数..');
+//                            if (err) {
+//                                callback(err);
+//                            } else {
+//                                callback(null);
+//                            }
+//                        });
+//                    });
+//                }
+//
+//            ], function (err) {
+//                i++;
+//                if (err) console.log(err);
+//                if (i == msgno.length) {
+//                    db.close();
+//                    res.redirect('/admin/tip/leaveMsg');
+//                }
+//            });
+//        } else if (typeof(msgno) == 'string') {
+//            adminCl.adminMsgOk(sname, "sleaveMessages", msgno, 2, function (err) {
+//                if (err) {
+//                    console.log(err);
+//                    db.close();
+//                    res.render("error", {message: err});
+//                } else {
+//                    db.close();
+//                    res.render('ok', {message: "审核成功.."});
+//                }
+//
+//            });
+//        } else {
+//            db.close();
+//            res.render('error', {message: "未选择任何项.."});
+//        }
+//    });
+//});
+
+/*
+*新成员反馈处理
+* time 1/17
+*
+* */
+router.get('/tip/feedback',function(req,res){
+    //var sname=req.session.sname;
+    var sname="RoseOffice";
+
+    adminCl.adminMsg_all(sname,"sfeedbackMessages",function(err,data){
+        if(err) return console.log(err);
+        else{
+            console.log(data);
+            res.render('afeedback',{data:data});
+        }
+    })
+});
+//成员反馈- 删除成员留言
+router.post('/tip/feedbackDelJ',function(req,res) {
+    var ids = req.body["msg[]"];
+    console.log('test for feedback ids..');
+    console.log(ids);
+    console.log(req.body);
+    adminCl.feedbackmsgDel(ids, function (err) {
+
+        if (err) {
+            console.log(err);
+            res.json({success:0});
+        } else {
+            res.json({success:1});
+        }
+    })
+});
+router.post('/tip/feedbackDel',function(req,res) {
+    var ids = req.body.msg;
+    console.log(ids);
+    adminCl.feedbackmsgDel(ids, function (err) {
+        if (err) {
+            console.log(err);
+            //res.json({success:0});
+            res.render("error", {message: err});
+        } else {
+            //  res.json({success:1});
+            //res.render("ok",{message:"success"});
+            res.redirect("feedback");
+        }
+
+    })
+});
+
+//成员反馈-添加回复
+router.post('/tip/feedbackC',function(req,res){
+    var name=req.body.uname;
+    var email=req.body.uemail;
+    var content=req.body.content;
+    var id=req.body.id;
+    adminCl.feedbackmsgC(name,email,content,id,function(err){
+        if (err) {
+            console.log(err);
+            //res.json({success:0});
+            res.render("error",{message:err});
+        } else {
+            //  res.json({success:1});
+            //res.render("ok",{message:"success"});
+            res.redirect("feedback");
+        }
+    })
+});
+//成员反馈- 删除回复
+router.post('/tip/feedbackCDel',function(req,res){
+    var id=req.body.id;
+    adminCl.feedbackmsgDelC(id,function(err){
+        if (err) {
+            console.log(err);
+            //res.json({success:0});
+            res.render("error",{message:err});
+        } else {
+            //  res.json({success:1});
+            //res.render("ok",{message:"success"});
+            res.redirect("feedback");
+        }
+    })
+});
+
+ /**
+ * 成员反馈界面 - old
+ */
+//router.get('/tip/feedback',function(req,res){
+//    //var sname=req.session.sname;
+//    var sname="RoseOffice";
+//    adminCl.adminMsg(sname,"sfeedbackMessages",0,function(err,data){
+//        if(err) return console.log(err);
+//        else{
+//            res.render('afeedback',{data:data});
+//
+//        }
+//    })
+//});
+
 /**
  * 成员反馈处理界面..
  */
-
 
 router.post('/tip/feedback',function(req,res){
     //var sname=req.session.sname;
@@ -270,6 +485,19 @@ router.post('/tip/feedback',function(req,res){
     });
 });
 
+/**
+ *
+ */
+router.post("/tip/feedbackok",function(req,res){
+    var msg=req.body.msg;
+
+    adminCl.feedbackmsg(sname,msg,1,function(err){
+        if(err){res.render('error',{message:err})}
+        else{
+            res.render('ok',{message:"success"});
+        }
+    })
+})
 
 /**
  * 加入创新组信息处理界面
@@ -277,109 +505,173 @@ router.post('/tip/feedback',function(req,res){
 router.get('/tip/joinMsg',function(req,res){
     //var sname=req.session.sname;
     var sname="RoseOffice";
-    adminCl.adminMsg(sname,"joinMessages",0,function(err,data){
-        if(err) return console.log(err);
+    adminCl.joingroupmsg(sname,function(err,data){
+        if(err) {console.log(err);res.render('error',{message:err});}
         else{
             res.render('ajoinmsg',{data:data});
-
         }
     })
 });
 
+//旧版本,处理两种情况..
 router.post('/tip/joinMsg',function(req,res) {
     //var sname=req.session.sname;
     var sname = "RoseOffice";
 
-    var msg=req.body.msg;
-    var msgno=req.body.msgno;
-    var i=0;
+    var msg = req.body.msg;
+    var msgno = req.body.msgno;
 
-    mongoose.connect("mongodb://localhost/studio");
-    var db=mongoose.connection;
-
-    db.on('error',console.error.bind(console,"connect error:"));
-    db.once('open',function() {
-        if (typeof(msg) == 'object') {
-            async.series([
-                function (callback) {
-                    msg.forEach(function (val) {
-                        adminCl.adminMsgOk(sname, "joinMessages", val, 1, function (err) {
-                            console.log('回调函数..');
-                            if (err) {
-                                callback(err);
-                            } else {
-                                callback(null);
-                            }
-                        });
-                    });
-                }
-            ], function (err) {
-                i++;
-                if (err) console.log(err);
-                if (i == msg.length) {
-                    db.close();
-                    res.redirect('/admin/tip/joinMsg');
-                }
-            });
-        } else if (typeof(msg) == 'string') {
-            adminCl.adminMsgOk(sname, "joinMessages", msg, 1, function (err) {
-                if (err) {
+    adminCl.joingroupEx(sname,msg,1,function(err){
+        if(err){
+            console.log(err);
+            res.render("error",{message:err});
+        }else{
+            adminCl.joingroupEx(sname,msgno,2,function(err){
+                if(err){
                     console.log(err);
-                    db.close();
-                    res.render("error", {message: err});
-                } else {
-                    db.close();
-                    res.render('ok', {message: "审核成功.."});
+                    res.render("error",{message:err});
+                }else{
+                    res.redirect("tip/");
                 }
-
-            });
+            })
         }
-        //拒绝消息的处理..
-        else if (typeof(msgno) == 'object') {
-            async.series([
-                function (callback) {
-                    msgno.forEach(function (val) {
-                        adminCl.adminMsgOk(sname, "joinMessages", val, 2, function (err) {
-                            console.log("调用一次处理函数..");
-                            //adminCl.adminmsgnoOki(sname,val,1,function(){
-                            console.log('回调函数..');
-                            if (err) {
-                                callback(err);
-                            } else {
-                                callback(null);
-                            }
-                        });
-                    });
-                }
-
-            ], function (err) {
-                i++;
-                if (err) console.log(err);
-                if (i == msgno.length) {
-                    db.close();
-                    res.redirect('/admin/tip/joinMsg');
-                }
-            });
-        } else if (typeof(msgno) == 'string') {
-            adminCl.adminMsgOk(sname, "joinMessages", msgno, 2, function (err) {
-                if (err) {
-                    console.log(err);
-                    db.close();
-                    res.render("error", {message: err});
-                } else {
-                    db.close();
-                    res.render('ok', {message: "审核成功.."});
-                }
-
-            });
-        } else {
-            db.close();
-            res.render('error', {message: "未选择任何项.."});
-        }
-
-    });
-
+    })
 });
+
+//同意加入 - ajax 接口
+router.post('/tip/joinMsgOkJ',function(req,res) {
+    //var sname=req.session.sname;
+    var sname = "RoseOffice";
+    if(typeof(req.body.msg)=='undefined'){
+        var msg=req.body["msg[]"];
+    }else{
+        var msg = req.body.msg;
+    }
+
+    adminCl.joingroupEx(sname,msg,1,function(err){
+        if(err){
+            console.log(err);
+            res.json({success:0});
+        }else{
+            res.json({success:1});
+        }
+    })
+});
+//不同意加入 - ajax 接口
+router.post('/tip/joinMsgNoJ',function(req,res) {
+    //var sname=req.session.sname;
+    var sname = "RoseOffice";
+    if(typeof(req.body.msg)=='undefined'){
+        var msg=req.body["msg[]"];
+    }else{
+        var msg = req.body.msg;
+    }
+    adminCl.joingroupEx(sname,msg,2,function(err){
+        if(err){
+            console.log(err);
+            res.json({success:0});
+        }else{
+            res.json({success:1});
+        }
+    })
+});
+
+
+
+//router.post('/tip/joinMsg',function(req,res) {
+//    //var sname=req.session.sname;
+//    var sname = "RoseOffice";
+//
+//    var msg=req.body.msg;
+//    var msgno=req.body.msgno;
+//    var i=0;
+//
+//    mongoose.connect("mongodb://localhost/studio");
+//    var db=mongoose.connection;
+//
+//    db.on('error',console.error.bind(console,"connect error:"));
+//    db.once('open',function() {
+//        if (typeof(msg) == 'object') {
+//            async.series([
+//                function (callback) {
+//                    msg.forEach(function (val) {
+//                        adminCl.adminMsgOk(sname, "joinMessages", val, 1, function (err) {
+//                            console.log('回调函数..');
+//                            if (err) {
+//                                callback(err);
+//                            } else {
+//                                callback(null);
+//                            }
+//                        });
+//                    });
+//                }
+//            ], function (err) {
+//                i++;
+//                if (err) console.log(err);
+//                if (i == msg.length) {
+//                    db.close();
+//                    res.redirect('/admin/tip/joinMsg');
+//                }
+//            });
+//        } else if (typeof(msg) == 'string') {
+//            adminCl.adminMsgOk(sname, "joinMessages", msg, 1, function (err) {
+//                if (err) {
+//                    console.log(err);
+//                    db.close();
+//                    res.render("error", {message: err});
+//                } else {
+//                    db.close();
+//                    res.render('ok', {message: "审核成功.."});
+//                }
+//
+//            });
+//        }
+//        //拒绝消息的处理..
+//        else if (typeof(msgno) == 'object') {
+//            async.series([
+//                function (callback) {
+//                    msgno.forEach(function (val) {
+//                        adminCl.adminMsgOk(sname, "joinMessages", val, 2, function (err) {
+//                            console.log("调用一次处理函数..");
+//                            //adminCl.adminmsgnoOki(sname,val,1,function(){
+//                            console.log('回调函数..');
+//                            if (err) {
+//                                callback(err);
+//                            } else {
+//                                callback(null);
+//                            }
+//                        });
+//                    });
+//                }
+//
+//            ], function (err) {
+//                i++;
+//                if (err) console.log(err);
+//                if (i == msgno.length) {
+//                    db.close();
+//                    res.redirect('/admin/tip/joinMsg');
+//                }
+//            });
+//        } else if (typeof(msgno) == 'string') {
+//            adminCl.adminMsgOk(sname, "joinMessages", msgno, 2, function (err) {
+//                if (err) {
+//                    console.log(err);
+//                    db.close();
+//                    res.render("error", {message: err});
+//                } else {
+//                    db.close();
+//                    res.render('ok', {message: "审核成功.."});
+//                }
+//
+//            });
+//        } else {
+//            db.close();
+//            res.render('error', {message: "未选择任何项.."});
+//        }
+//
+//    });
+//
+//});
 /**
  * 项目申请处理界面..
  */
@@ -395,9 +687,54 @@ router.get('/tip/projectMsg',function(req,res){
     })
 });
 
+/**
+ * 項目申請 -- 0120
+ */
+
+//同意加入 - ajax 接口
+router.post('/tip/projectMsgOkJ',function(req,res) {
+    //var sname=req.session.sname;
+    var sname = "RoseOffice";
+    if(typeof(req.body.msg)=='undefined'){
+        var msg=req.body["msg[]"];
+    }else{
+        var msg = req.body.msg;
+    }
+
+    adminCl.joingroupEx(sname,msg,1,function(err){
+        if(err){
+            console.log(err);
+            res.json({success:0});
+        }else{
+            res.json({success:1});
+        }
+    })
+});
+//不同意加入 - ajax 接口
+router.post('/tip/projectMsgJ',function(req,res) {
+    //var sname=req.session.sname;
+    var sname = "RoseOffice";
+    if(typeof(req.body.msg)=='undefined'){
+        var msg=req.body["msg[]"];
+    }else{
+        var msg = req.body.msg;
+    }
+    adminCl.joingroupEx(sname,msg,2,function(err){
+        if(err){
+            console.log(err);
+            res.json({success:0});
+        }else{
+            res.json({success:1});
+        }
+    })
+});
+
+
+
 
 /**
- * 项目申请处理界面..
+ * 项目申请处理界面..  -  old
+ *
  */
 router.get('/tip/projectMsg',function(req,res) {
 //var sname=req.session.sname;
@@ -795,7 +1132,7 @@ router.post('/people/adduser', function(req, res) {
 
 
 router.get('/index', function(req, res) {
-    res.render('index', { title: 'admin' });
+    res.render('aindex', { title: 'admin' });
 });
 
 

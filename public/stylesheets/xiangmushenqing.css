@@ -1,8 +1,8 @@
 #content span{
 	padding-right: 5px;
-	font-size: 25px;
+	font-size: 15px;
 	font-weight: bold;
-	font-family: "华文新隶";
+	font-family: "微软雅黑";
 }
 #b{
     padding-left: 80px;
@@ -12,7 +12,7 @@
 #c span{
 	font-size: 15px;
 }
-#text,#text1,#text2,#text3{
+.text,.text1,.text2,.text3{
 	margin-top: 10px;
 	margin-left: 80px;
 	margin-right: 80px;
@@ -22,14 +22,16 @@
 	border: solid 1px #fff;
 	outline-style: double;
 }
-#text p,#text1 p,#text2 p,#text3 p{
+.text p,.text1 p,.text2 p,.text3 p{
 	margin-left: 5px;
 	font-family: Georgia, serif;
 	font-size: 15px;
 	text-indent: 2em;
+    height: 68px;
+    overflow: auto;
 }
 
-#text span,#text1 span,#text2 span,#text3 span{
+.text span,.text1 span,.text2 span,.text3 span{
 	font-size: 15px;
 }
 .span1{

@@ -1,0 +1,15 @@
+/*     左导航    */
+#leftnav{
+
+	background-color: #D8E0E3;
+    float: left;
+    width: 160px;
+    height: 631px;
+    margin-left:92px;
+}
+
+#leftnav li{
+	padding-left: 40px;
+	padding-top:40px;
+    list-style-type: none;
+}

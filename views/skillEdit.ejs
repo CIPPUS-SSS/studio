@@ -1,27 +1,84 @@
-<%-include bheader %>
 
-        <% if(typeof(skills)=='object'){
-        skills.forEach(function(skill){%>
+
+<html>
+<head>
+    <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/top.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/leftnav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bianjijinengshu.css">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="/javascripts/bianjijinengshu.js"></script>
+
+</head>
+
+<body>
+<%- include top %>
+<%- include header %>
+<%- include nav%>
+<div id="con">
+    <%- include leftnav%>
+    <div class="contentnav">
+      <span>
+        <a href="/">螺丝工作室个人管理 ></a>
+        <a href="/gerenziliao">个人资料 ></a>
+        <a href="/bianjijinengshu">编辑技能树</a>
+      </span>
+    </div>
+    <div id="content">
+        <h2><span>编</span><span>辑</span><span>技</span><span>能</span>树</h2>
+        <div id="a">
+
+            <p>已选技能</p>
+            <div id="yixuan" style="width:440px;height:80px">
+
+                <% allSkills.forEach(function(skill){%>
+                <span><input value="<%=skill.skname%>" readonly><img  src="/images/u53.png"></span>
+                <%})%>
+
+
+                <span><input value="socket" disabled><img  src="/images/u53.png"></span>
+            </div>
+
+            <p>技能列表</p>
+            <div id="wei" style="width:440px;height:80px">
+                <% allSkills.forEach(function(skill){%>
+                <span><input value="<%=skill.skname%>" readonly><img  src="/images/u77.png"></span>
+                <%})%>
+            </div>
+
+            <p>自定义技能</p>
+            <!--<input id="shuru" type="text"><img id="zidingyi" src="/images/u77.png">-->
+            <form id="check" action="" method="post">
+                <% allSkills.forEach(function(skill){%>
+                    <input class="c" type="checkbox" value="<%=skill._id%>" name="skills">
+                <%})%>
+                <input id="qd" type="submit" value="确定">
+            </form>
+            <div id="s">
+                <p>熟练度：PHP</p>
+                <input type="submit" value="excelent"><br>
+                <input type="submit" value="good"><br>
+                <input type="submit" value="basic"><br>
+            </div>
+        <div>
+            <% if(typeof(skills)=='object'){
+            skills.forEach(function(skill){%>
             <li>已有技能:<%=skill%></li>
-        <%});%>
-         <% }else if(typeof(skills)=='string'){%>
-          <li>已有技能:<%=skills%></li>
-        <%}else{%>
+            <%});%>
+            <% }else if(typeof(skills)=='string'){%>
+            <li>已有技能:<%=skills%></li>
+            <%}else{%>
             <li>目前没有技能..</li>
-        <%}%>
-<form role="form" class="form" action="" method="post">
-
-<% allSkills.forEach(function(skill){%>
-    <div class="form-group">
-        <label class="control-label" for="skills"><%=skill.skname%></label>
-        <div class="col-md-6">
-            <input type="checkbox" class="form-control"  id="skills" name="skills" value="<%=skill._id%>">
+            <%}%>
         </div>
-    </div>
-    <%});%>
-    <div class="form-group">
-        <button class="btn btn-default center-block" type="submit">确认</button>
-    </div>
-</form>
+        </div>
 
-<%-include bfooter%>
+    </div>
+</div>
+</body>
+
+</html>

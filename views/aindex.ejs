@@ -1,9 +1,31 @@
-<%-include header %>
-<div style="padding:0;margin:0;">
+<%-include theader %>
+<% include theader%>
+<link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
+</head>
+<body>
+<%- include top %>
+<%- include header %>
+<%- include nav%>
+<div id="con">
+    <%- include leftnav%>
+    <div class="contentnav">
+      <span>
+        <a href="/user/">螺丝工作室个人管理 ></a>
+        <a href="info">个人资料</a>
+        <a href="#"></a>
+      </span>
+    </div>
 
 
-    <h1>Office Info</h1>
-    <ul>
+
+    <div id="content">
+
+        <h2><span>基</span><span>本</span><span>信</span>息</h2>
+        <div id="a">
+            <h2>Welcome To Rose !</h2>
+        </div>
+    <br>
+    <ul style="display:block;margin-top:80px;margin-left:80px;">
 
          <li>总访问量:<%=data.svisited%>次</li>
         <li>今日访问:<%=data.svisitedToday%>次</li>
@@ -17,5 +39,9 @@
         <li>榜样总数:<%=data.examplesNum%>次</li>
         <li>招新状态:<%=data.staute%></li>
     </ul>
+
+    </div>
 </div>
- <%-include footer%>
+
+</body>
+</html>

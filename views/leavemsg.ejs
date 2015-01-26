@@ -1,0 +1,33 @@
+<% include theader%>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/xiugaimima.css">
+
+    <script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
+
+
+</head>
+
+<body>
+<%- include top %>
+<%- include header %>
+<%- include nav%>
+<div id="con">
+    <%- include leftnav%>
+    <div class="contentnav">
+      <span>
+        <a href="/user/">螺丝工作室个人管理 ></a>
+        <a href="info">个人资料 ></a>
+        <a href="pswEdit">修改密码</a>
+      </span>
+    </div>
+    <div id="content">
+        <h2><span>游客留言</span></h2>
+        <form action=""  method="post">
+        <p>姓名: <input class="a" type="text" name="uname"></p>
+        <p>邮箱：<input id="xin1" class="a" type="email" name="email"></p>
+        <p>内容：<input id="xin2" type="text" name="content">
+        <p><input type="submit" value="提交"></p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

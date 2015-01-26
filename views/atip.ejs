@@ -1,3 +1,73 @@
-<pre><% for(var i in data){%>
-    <li><%=i%> == ><%=data[i]%></li>
-    <%  }%></pre>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>通知</title>
+
+    <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/top.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/leftnav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/a_1tongzhi.css">
+
+    <script type="text/javascript" src="/javascripts/link_tongzhi.js"></script>
+
+</head>
+
+<body>
+<%- include top %>
+<%- include header %>
+<%- include nav%>
+<%- include leftnav%>
+
+<div class="contentnav">
+      <span>
+        <a href="/admin/">螺丝工作室后台管理 ></a>
+        <a href="a_1tongzhi">通知</a>
+        <a href="#"></a>
+      </span>
+</div>
+
+
+<div id="a">
+    </br>
+    <h>数据统计</h>
+    <table>
+        <tr >
+            <td ></td>
+            <td >游客反馈</td>
+            <td >成员反馈</td>
+            <td >加入申请</td>
+            <td >项目申请</td>
+        </tr>
+        <tr>
+            <td>总数</td>
+            <td><%=data.leavemsgTotal%></td>
+            <td><%=data.feedbackTotal%></td>
+            <td><%=data.joinTotal%></td>
+            <td><%=data.projectTotal%></td>
+        </tr>
+        <tr>
+            <td>今日</td>
+            <td>0.0</td>
+            <td>0.0</td>
+            <td>0.0</td>
+            <td>0.0</td>
+        </tr>
+        <tr>
+            <td>未处理</td>
+            <td><%=data.leavemsgUndo%></td>
+            <td><%=data.feedbackUndo%></td>
+            <td><%=data.joinUndo%></td>
+            <td><%=data.projectUndo%></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+
+
+</html>

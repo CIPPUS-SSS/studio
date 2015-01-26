@@ -1,0 +1,91 @@
+<html>
+<head>
+    <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/top.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/leftnav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bianjijinengshu.css">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+
+    <script type="text/javascript" src="/javascripts/bianjijinengshu.js"></script>
+
+</head>
+
+<body>
+    <%- include top %>
+    <%- include header %>
+    <%- include nav%>
+    <div id="con">
+    <%- include leftnav%>
+    <div class="contentnav">
+      <span>
+        <a href="/">螺丝工作室个人管理 ></a>
+        <a href="/gerenziliao">个人资料 ></a>
+        <a href="/bianjijinengshu">编辑技能树</a>
+      </span>
+    </div>
+    <div id="content">
+       <h2><span>编</span><span>辑</span><span>技</span><span>能</span>树</h2>
+       <div id="a">
+
+       <p>已选技能</p>
+       <div id="yixuan" style="width:440px;height:80px">
+       <span><input value="javascript" disabled><img class="yi1" src="/images/u53.png"></span>
+       <span><input value="php" disabled><img class="yi2" src="/images/u53.png"></span>
+       <span><input value="java" disabled><img class="yi3" src="/images/u53.png"></span>
+       <span><input value="python" disabled><img class="yi4" src="/images/u53.png"></span>
+       <span><input value="node" disabled><img class="yi5" src="/images/u53.png"></span>
+       <span><input value="canvas" disabled><img class="yi6" src="/images/u53.png"></span>
+       <span><input value="javascript" disabled><img class="yi7" src="/images/u53.png"></span>
+       <span><input value="css" disabled><img class="yi8" src="/images/u53.png"></span>
+       <span><input value="webgl" disabled><img class="yi9" src="/images/u53.png"></span>
+       <span><input value="socket" disabled><img class="yi0" src="/images/u53.png"></span>
+       </div>
+
+       <p>技能列表</p>
+       <div id="wei" style="width:440px;height:80px">
+       <span><input value="javascript" disabled><img class="wei1" src="/images/u77.png"></span>
+       <span><input value="php" disabled><img class="wei2" src="/images/u77.png"></span>
+       <span><input value="java" disabled><img class="wei3" src="/images/u77.png"></span>
+       <span><input value="python" disabled><img class="wei4" src="/images/u77.png"></span>
+       <span><input value="node" disabled><img class="wei5" src="/images/u77.png"></span>
+       <span><input value="canvas" disabled><img class="wei6" src="/images/u77.png"></span>
+       <span><input value="javascript" disabled><img class="wei7" src="/images/u77.png"></span>
+       <span><input value="css" disabled><img class="wei8" src="/images/u77.png"></span>
+       <span><input value="webgl" disabled><img class="wei9" src="/images/u77.png"></span>
+       <span><input value="socket" disabled><img class="wei0" src="/images/u77.png"></span>
+       </div>
+
+       <p>自定义技能</p>
+       <input id="shuru" type="text"><img id="zidingyi" src="/images/u77.png"> 
+       <form id="check" action="" method="get">
+       <input class="c" type="checkbox" value="javascript" checked="checked"/>
+       <input class="c" type="checkbox" value="php" checked="checked" />
+       <input class="c" type="checkbox" value="java" checked="checked" />
+       <input class="c" type="checkbox" value="python" checked="checked" />
+       <input class="c" type="checkbox" value="node" checked="checked" />
+       <input class="c" type="checkbox" value="canvas" checked="checked" />
+       <input class="c" type="checkbox" value="javascript" checked="checked" />
+       <input class="c" type="checkbox" value="css" checked="checked" />
+       <input class="c" type="checkbox" value="webgl" checked="checked" />
+       <input class="c" type="checkbox" value="socket" checked="checked" />
+       <input id="qd" type="submit" value="确定">
+       </form>
+      
+       
+       <div id="s">
+         <p>熟练度：PHP</p>
+         <input type="submit" value="excelent"><br>
+         <input type="submit" value="good"><br>
+         <input type="submit" value="basic"><br>
+       </div>
+
+       </div>
+
+    </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+            input {margin-top: 0px;}
+            #a { width:1002px; min-height:727px;border:1px #000000 solid; float:left; margin-left: 2px;}
+            #b {width:860px;  min-height:714px;border:1px #000000 solid; margin: 10px auto;}
+
+             #weichuli {width:780px;  min-height: 660px; border:1px #000000 solid; margin:56px auto;}
+             #yichuli {width:780px;  min-height: 660px; border:1px #000000 solid; margin:56px auto; }
+
+             h {font-size: 30px; margin-left:20px;  margin-top: 6px;  float: left;}
+             select { margin-left:20px; margin-top:20px; float: left;}
+             p { padding-top:4px; padding-left: 4px; margin:0px; font-family: 微软雅黑;}
+             p1 {float: left; margin-left: 300px;margin-top:20px;}
+             p2 { float: left; margin-left: 20px;margin-top:20px;}
+              #a span {padding-top:0px; padding-left: 4px; margin:0px; font-family: 微软雅黑; }
+              .n {color: red;}
+              .y {color: green;}
+              .s1 { font-family: 微软雅黑; float: right; padding-right: 6px;}
+
+
+             .p1 { font-size: 20px; text-align: center; margin: 0px auto; font-family:微软雅黑;}
+
+             .block { width: 760px; height: 40px; border: 1px #000000 solid; margin:0px auto; margin-top: 50px; }
+
+             #div1 {width:770px; min-height:100px; border: 1px #000000 solid; margin: auto; margin-top: 40px;}
+             #div2 {width:770px; min-height: 100px; border: 1px #000000 solid; margin: auto; margin-top: 30px;}
+             .div1 {width:770px; min-height: 100px; border: 1px #000000 solid; margin: auto; margin-top: 40px;}
+
+
+              .input0 { width: 16px; height: 16px; float: right; margin-right: 4px; margin-top: 0px; padding-top: 2px;} 
+              .input1 { width: 16px; height: 16px; float: right; margin-right: 4px; margin-top: 0px;padding-top: 2px;} 
+              .input { width: 16px; height: 16px; float: right; margin-right: 4px; margin-top: 0px;padding-top: 2px;}
+              .input_checkbox { width: 16px; height: 16px; float: right; margin-right: 4px; margin-top:2px;}
+              .input_checkbox2 { width: 16px; height: 16px; float: right; margin-right: 4px; margin-top: 2px;}
+
+
+               p4 { margin-left: 10px; width: 760px; font-family:微软雅黑;}
+
+                
+                 .right1 { float: right;  padding-right: 4px;}
+                 .right2 { float: right;  padding-right: 4px;}
+                  
+                a {padding-top: 0px; margin-right: 0px;}
+               .liuyankuang { width: 700px; min-height: 40px; border: 1px solid #000000 ;  margin: 10px auto; display: none;}
+               .liuyan { min-width:200px; min-height: 20px; border: 1px solid #000000 ;  background: gray; margin:4px auto;}
+               #liuyan_moban {min-width:200px; min-height: 20px; border: 1px solid #000000 ;  background: red; margin:4px auto; display: none;}
+               
+               .textarea { width:606px; min-height:140px; border: 1px solid #000000; margin:0 auto; background: ray; }
+               textarea {width:600px; min-height:100px;  resize:none;}
+
+               .tijiao { font-size: 14px; float: right; padding-right: 14px; width: 100px ;height: 20px; text-align: center;}
+               .quxiao { font-size: 14px; float: right; padding-right: 14px; width: 100px ;height: 20px; text-align: center;}

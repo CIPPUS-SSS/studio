@@ -10,6 +10,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var user=require('./routes/user');
 var admin=require('./routes/admin');
+var test = require('./routes/test');
 
 var app = express();
 
@@ -35,19 +36,20 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-//login control.
-app.use(function(req,res,next){
-    var pass = req.session.pass;
-    var url=req.originalUrl;
-    if(pass!="ok"&&url!="/user/login"){
-        return res.redirect('/user/login')
-    }
-    next();
-})
+////login control.
+//app.use(function(req,res,next){
+//    var pass = req.session.pass;
+//    var url=req.originalUrl;
+//    if(pass!="ok"&&url!="/user/login"){
+//        return res.redirect('/user/login')
+//    }
+//    next();
+//})
 app.use('/', routes);
 app.use('/users', users);
 app.use('/user',user);
 app.use('/admin',admin);
+app.use('/test',test);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

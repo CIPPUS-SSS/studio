@@ -1,17 +1,105 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<%-include bheader %>
-<form role="form" class="form" action="" method="post">
+    <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/top.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/aleftnav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/a_4jiarushenqing.css">
 
-    <% for(var i in data){%>
-    <div class="form-group">
-        <label class="control-label" for="msg"><%=i%>==><%=data[i]%></label>
-        <input type="checkbox" class="form-control" value=<%=data[i]._id%> id="msg" name="msg">同意
-        <input type="checkbox" class="form-control" value=<%=data[i]._id%> id="msgno" name="msgno">不同意
+
+    <script type="text/javascript" src="/bootstrap/js/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="/javascripts/link_jiarushenqing.js"></script>
+
+
+</head>
+
+<body>
+<%- include top %>
+<%- include header %>
+<div id="nav">
+    <ul>
+        <li><a href="info">后台管理</a></li>
+        <li><a href="projectMy">通知</a></li>
+        <li><a href="sendFeedBack">加入申请</a></li>
+    </ul>
+</div>
+
+<%- include aleftnav%>
+
+
+<div class="contentnav">
+      <span>
+        <a href="/">螺丝工作室后台管理 ></a>
+        <a href="/a_1tongzhi">通知 ></a>
+        <a href="/a_4jiarushenqing">加入申请</a>
+      </span>
+</div>
+
+<div id="a">
+    <div id="b">
+        <h >加入申请列表</h>
+        <select class="op">
+            <option class="op" value="0">申请加入工作室</option>
+            <option class="op" value="1">申请加入组</option>
+            <option class="op" value="2">所有申请</option>
+        </select>
+
+        <div id="text0">
+            <input type="image" value="拒绝" class="j1">
+            <input type="image" value="同意" class="t1">
+
+            <div class="block" >
+                <p style="font-size:20px; text-align:center;">加载更多</p>
+            </div>
+        </div>
+
+
+        <div id="text1">
+            <input type="image" value="拒绝" class="j2">
+            <input type="image" value="同意" class="t2">
+
+            <div class="block" >
+                <p style="font-size:20px; text-align:center;">加载更多</p>
+            </div>
+        </div>
+
+        <div id="text2">
+
+            <input type="image" value="拒绝" class="j3">
+            <input type="image" value="同意" class="t3">
+
+            <div class="block" >
+                <p style="font-size:20px; text-align:center;">加载更多</p>
+            </div>
+
+        </div>
+        <%
+            if(data==null||data.length==0){
+                %><h2>没有消息诶..</h2><%
+            }else if(typeof(data)=='object'){
+         for(var i=0;i<data.length;i++){
+            data[i].mcontent=data[i].mcontent.replace(/\r\n/ig,"  ");
+         %>
+        <script>
+
+            var sel="<div class ='div1'><span><%=data[i].mtime%>  <%=data[i].uname%>想加入<%=data[i].gid.gname%>： </span> <form action=\"\" method='post'> <input type='hidden' value='<%=data[i]._id%>' name='msg'><input type='checkbox' class='checkbox1' id='i1'value='<%=data[i]._id%>' name='msgs'><input type='image' class='shanchu' src='/images/u53.png' onclick=\"return false;\" value='0'><input type='image' class='queren' src='/images/dui.png' onclick=\"return false;\" value='1'></form></br><p><%=data[i].mcontent%></p></div>";
+            var section=$(sel);
+            var sectioncpy=$(sel);
+            <% if(data[i].gid.gname=='one'){%>
+            $("#text0 .block").before(sectioncpy);
+            <% }else{%>
+            $("#text1 .block").before(sectioncpy);
+            <%}%>
+            $("#text2 .block").before(section);
+        </script>
+             <%
+         }
+      }
+       %>
     </div>
-    <%}%>
-    <div class="form-group">
-        <button class="btn btn-default center-block" type="submit">确认审核</button>
-    </div>
-</form>
-
-<%-include bfooter%>
+</div>
+</body>
+</html>

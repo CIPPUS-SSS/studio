@@ -66,7 +66,12 @@ var cultureSchema = mongoose.Schema(//文化 (包含于studio,用于介绍工作
 
 );
 
-//各个组发布的信息。。
+//回复。。
+var revisionSchema = mongoose.Schema(
+    {uname:String,uemail:String,mcontent:String,mtime:{type:Date,default:Date()}}
+)
+
+//新增--各个组发布的信息。。
 /**
  * 组别，发布人，发布（更新时间），关联图片。。
  */
@@ -77,6 +82,16 @@ var omsgSchema = mongoose.Schema({
     ocontent:String,
     opic:String
 });
+
+//新增--退出项目申请
+var qProjectsSchema=mongoose.Schema({
+    user:{type:Schema.ObjectId,ref:'user'},
+    project:{type:Schema.ObjectId,ref:'project'},
+    content:{type:String},
+    otime:{type:Date,default:Date()},
+    reply:{type:Number,default:0}   //0,未审核, 1.同意, 2.拒绝
+})
+
 
 
 var studioSchema= mongoose.Schema({
@@ -110,6 +125,9 @@ var studioSchema= mongoose.Schema({
         soMessages:[
             omsgSchema
         ] ,
+        qProjects:[
+            qProjectsSchema
+        ],
         sfeedbackMessages:[//用户反馈
 
             {
@@ -128,7 +146,7 @@ var studioSchema= mongoose.Schema({
 
                 reversions:[//针对这个反馈的回复
 
-                    {rid:String,uname:String,uemail:String,mcontent:String,mtime:{type:String,default:Date()}}//回复id，发送人，其邮箱，内容，时间
+                    {uname:String,uemail:String,mcontent:String,mtime:{type:Date,default:Date()}}//回复id，发送人，其邮箱，内容，时间
                 ]
 
             }
@@ -139,19 +157,21 @@ sleaveMessages:[//留言（内容同用户反馈）
 
     {
 
-        smid:String,//留言id 时间戳+随机数,手动生成
+       // smid:String,//留言id 时间戳+随机数,手动生成
 
         uname:String,//留言者雅号
 
+        uemail:String,
+
         mcontent:String,//留言内容
 
-        mtime:{type:Date,default:Date()},//留言时间
+        mtime:{type:Date,default: new Date()},//留言时间
 
         mstaute:{type:Number, default:0},//审核状态..0未审核, 1审核通过..
 
         reversions:[//针对这个留言的回复
 
-            {rid:String,uname:String,uemail:String,mcontent:String,mtime:{type:String,default:Date()}}
+            revisionSchema
 
 
             ]
@@ -164,17 +184,15 @@ sprojectMessages:[//项目申请
 
     {
 
-       // smid:String,//id 项目id使用默认 _id
+        uid:{type:Schema.Types.ObjectId,ref:'user'},//id
 
-        uid:String,//申请人ID
-
-        pid:String,//项目ID
+        pid:{type:Schema.Types.ObjectId,ref:'project'},//項目id
 
         uname:String,//申请人姓名
 
-        uemail:String,//申请人邮箱
+        uemail:{type:String,default:null},//申请人邮箱
 
-        mcontent:String,//申请人说明
+        mcontent:{type:String,default:null},//申请人说明
 
         mtime:{type:Date,default:Date()},//申请时间
 
@@ -188,7 +206,7 @@ joinMessages:[//加入申请
 
     {
 
-        smid:String,//id
+        uid:{type:Schema.Types.ObjectId,ref:'user'},//id
 
         uname:String,//申请人姓名
 
@@ -196,9 +214,11 @@ joinMessages:[//加入申请
 
         mcontent:String,//申请人说明
 
+        gid:{type:Schema.Types.ObjectId,ref:'project'},
+
         mtime:{type:Date,default:Date()},//申请时间
 
-        mstaute:{type:Number, default:0}//审核状态..0未审核, 1审核通过..
+        mstaute:{type:Number, default:0}//审核状态..0未审核, 1审核通过..2不通过
 
     }
 

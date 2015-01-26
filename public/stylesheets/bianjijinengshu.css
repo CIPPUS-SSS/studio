@@ -3,7 +3,7 @@ h2 span{
 }
 
 p{
-	font-family: "微软雅黑";
+	font-family: 微软雅黑;
 }
 
 #a{
@@ -21,7 +21,9 @@ img{
 	margin-right: 10px;
 }
 #qd{
-	margin-left: 8px;
+	position: absolute;
+	left: 436px;
+	top: 656px;
 }
 #s{
 	position: absolute;

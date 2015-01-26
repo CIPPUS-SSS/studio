@@ -9,8 +9,7 @@
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="/javascripts/jquery-2.1.1.js"></script>
-    <script type="text/javascript" src="javascripts/wodexiangmu.js"></script>
-
+    <script type="text/javascript" src="/javascripts/wodexiangmu.js"></script>
 
     <script type="text/javascript" src="/javascripts/link.js"></script>
 
@@ -34,27 +33,13 @@
         <div id="b">
             <span>我</span><span>的</span><span>项</span><span>目</span>
             <select class="field">
-                <option id="op1" value="1">招募中</option>
-                <option id="op2" value="2">待审核</option>
+                <option id="op1" value="1">待审核</option>
+                <option id="op2" value="2">招募中</option>
                 <option id="op3" value="3">进行中</option>
                 <option id="op4" value="4">已完成</option>
             </select>
         </div>
-        <div id="text">
-            <span class="span1">工作室成立</span>
-            <span class="span2">类型：geek创意</span>
-            <span class="span3">状态：正在招募中</span>
-            <span class="span4">更新日期:2014-9-18 21:22</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
-            <span class="span5">成员：</span>
-            <span class="span5">小明</span>
-            <span class="span5">小刚</span>
-            <span class="span5">大飞哥</span>
-            <span class="span6">附件：</span>
-            <a href="#"><span class="span7">需求文档</span></a>
-            <span class="span8"><input type="submit" value="退 出"></span>
-        </div>
-        <div id="text1">
+        <div class="text">
             <span class="span1">工作室成立</span>
             <span class="span2">类型：geek创意</span>
             <span class="span3">状态：待审核</span>
@@ -68,10 +53,26 @@
             <a href="#"><span class="span7">需求文档</span></a>
             <span class="span8"><input type="submit" value="退 出"></span>
         </div>
+        <div class="text1">
+            <span class="span1">工作室成立</span>
+            <span class="span2">类型：geek创意</span>
+            <span class="span3">状态：正在招募中</span>
+            <span class="span4">更新日期:2014-9-18 21:22</span>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
+            <span class="span5">成员：</span>
+            <span class="span5">小明</span>
+            <span class="span5">小刚</span>
+            <span class="span5">大飞哥</span>
+            <span class="span6">附件：</span>
+            <a href="#"><span class="span7">需求文档</span></a>
+            <span class="span8"><input type="submit" value="退 出"></span>
+        </div>
 
 
         <% for(var i=0; i<data.length;i++){%>
-        <div id="text3">
+
+        <div class="text<%=data[i].ptype%>">
+            <input type="hidden" value="<%=data[i]._id%>">
             <span class="span1"><%=data[i].ptitle%></span>
                 <span class="span2">类型：<%=data[i].ptype%></span>
             <span class="span3">状态：<%=data[i].pstaute%></span>
@@ -85,7 +86,9 @@
                 <%for (var j=0;j<data[i].pdocs.length;j++){%>
                 <a href="<%data[i].pdocs[j]%>"><span class="span7">需求文档</span></a>
                 <%}%>
-
+            <%if( data[i].ptype==1){%>
+            <span class="span8"><input type="submit" value="加入"></span>
+            <%}%>
         </div>
         <%}%>
 

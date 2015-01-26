@@ -1,19 +1,14 @@
 /**
  * Created by I on 2014/10/6.
+ * 一些測試功能的實現
  */
-    /*
-     exports.skill=mongoose.model("skill",skillSchema);
-     exports.skill=mongoose.model("skill",skillSchema);
-     exports.skill=mongoose.model("skill",skillSchema);
-     exports.skill=mongoose.model("skill",skillSchema);
-     exports.group=mongoose.model("group",groupSchema);
-             exports.skill=mongoose.model("skill",skillSchema);
-     exports.skill=mongoose.model("skill",skillSchema);
-     */
-
 var mongoose=require('mongoose');
 var user=require('./user');
 var skill=require('./other').skill;
+var group=require('./other').group;
+var service = require("./service");
+var projects=require("./other").project;
+function ttt(){
 //用户登录验证函数..
 
     mongoose.connect("mongodb://localhost/studio");
@@ -72,3 +67,51 @@ var skill=require('./other').skill;
 
 
 });
+
+}
+
+
+var db=null;
+function openDB(func,param){
+    mongoose.connect('mongodb://localhost/studio');
+    db=mongoose.connection;
+
+    db.on('error',console.error.bind(console,"connect error"));
+    db.once('open',function(){
+          func();
+    });
+}
+
+function addGroup(option,callback){
+    openDB(
+        function(){
+            group.create(option,function(err){
+                db.close();
+                callback(err);
+            })
+        }
+    );
+
+}
+function simple(){
+    service.getDB(function a(){
+        console.log("*****");
+        user.findOne({},function(err,doc){
+            console.log(doc+ "  " + err);
+        })
+    });
+}
+
+function addProject(option,callback){
+    openDB(
+        function(){
+            projects.create(option,function(err){
+                db.close();
+                callback(err);
+            })
+        }
+    );
+}
+exports.addGroup = addGroup;
+exports.simple=simple;
+exports.addProject=addProject;

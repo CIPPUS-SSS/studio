@@ -12,6 +12,7 @@ var groups=require('./other').group;
 var skills=require('./other').skill;
 var projects=require('./other').project;
 var studio=require("./studio").studio;
+var service=require("./service");
 /**
  * 获取工作室的一些数据..
  * @param sname 工作室名称..
@@ -79,7 +80,6 @@ function adminTip(sname,callback){
                    db.close();
                    return callback('no this office..',null);
                }else{
-
                    var data={};
                    data.projectTotal=doc.sprojectMessages.length;
                    data.joinTotal=doc.joinMessages.length;
@@ -89,7 +89,7 @@ function adminTip(sname,callback){
                    var i=0;
                    console.log(data);
                    doc.sprojectMessages.forEach(function(val){
-                       i++;
+                       i++;console.log(i+"****");
                      //  console.log(i);
                        if(val.mstaute==0){
                            count ++;
@@ -105,7 +105,7 @@ function adminTip(sname,callback){
                                    count ++;
                                }
                                if(i==doc.joinMessages.length){
-                                   //console.log(data);
+                                   console.log(data);
                                     data.joinUndo=count;
                                    count=0;
                                    i=0;
@@ -116,18 +116,17 @@ function adminTip(sname,callback){
                                            count ++;
                                        }
                                        if(i==doc.sleaveMessages.length){
-                                         //  console.log(data);
+                                           console.log(data);
                                            data.leavemsgUndo=count;
                                            count=0;
                                            i=0;
                                            doc.sfeedbackMessages.forEach(function(val){
-
                                                i++;
                                                if(val.mstaute==0){
                                                    count ++;
                                                }
                                                if(i==doc.sfeedbackMessages.length){
-                                                   //console.log(data);
+                                                   console.log(data);
                                                    db.close();
                                                    data.feedbackUndo=count;
                                                    return callback(null,data);
@@ -147,6 +146,66 @@ function adminTip(sname,callback){
            }
         });
     });
+}
+
+
+function adminTips(sname,callback){
+    mongoose.connect("mongodb://localhost/studio");
+    var db=mongoose.connection;
+    console.log(sname);
+
+    db.on('error',console.error.bind(console,"connect error:"));
+    db.once('open',function(){
+        studio.findOne({sname:sname},"sprojectMessages joinMessages sleaveMessages sfeedbackMessages",function(err,doc) {
+            if (err) {
+                db.close();
+                return callback(err, null);
+            } else {
+                if (doc == null) {
+                    db.close();
+                    return callback('no this office..', null);
+                } else {
+                    var data = {};
+                    data.projectTotal = doc.sprojectMessages.length;
+                    data.joinTotal = doc.joinMessages.length;
+                    data.leavemsgTotal = doc.sleaveMessages.length;
+                    data.feedbackTotal = doc.sfeedbackMessages.length;
+                    maintip_a(doc.sprojectMessages,0,function(num){
+                          data.projectUndo=num;
+                          maintip_a(doc.joinMessages,0,function(num){
+                              data.joinUndo=num;
+                              maintip_a(doc.sleaveMessages,0,function(num){
+                                  data.leavemsgUndo=num;
+                                  maintip_a(doc.sfeedbackMessages,0,function(num){
+                                      data.feedbackUndo=num;
+                                      db.close();
+                                      callback(null,data);
+                                  })
+                              })
+                          })
+                    })
+                }
+            }
+        });
+                });
+
+}
+
+function maintip_a(arr,val,callback){
+    if(arr==null||arr.length==0){
+        callback(0);
+    }else{
+        var i= 0,j=0;
+        arr.forEach(function(v){
+            if(v.mstaute==val){
+                i++;
+            }
+            j++;
+            if(j==arr.length){
+                callback(i);
+            }
+        });
+    }
 }
 /**
  * 将游客留言 按审核状态 取出
@@ -208,19 +267,12 @@ function adminMsg(sname,what,staute,callback){
                             }
                         });
                     }else if(what=="sprojectMessages"){
-                        doc.sprojectMessages.forEach(function(val){
-                            i++;
-                            if(val.mstaute==staute){
-                                data.push(val);
-                            }
-                            if(i==doc.sprojectMessages.length){
-                                db.close();
-                                return callback(null,data);
-                            }
-                        });
+                        db.close();
+                        callback(null,data);
+
                     }else{
                         db.close();
-                        return callback("字段错误",null);
+                        callback("字段错误",null);
                     }
 
 
@@ -229,6 +281,49 @@ function adminMsg(sname,what,staute,callback){
         });
     });
 }
+
+/**
+ * 无筛选条件,取出所有字段内容..
+ * @param sname
+ * @param what
+ * @param callback
+ */
+function adminMsg_all(sname,what,callback){
+    mongoose.connect("mongodb://localhost/studio");
+    var db=mongoose.connection;
+
+    db.on('error',console.error.bind(console,"connect error:"));
+    db.once('open',function(){
+
+        studio.findOne({sname:sname},what,function(err,doc){
+            if(err){
+                db.close();
+                return callback(err,null);
+            }else{
+                db.close();
+                if(doc==null){
+                    return callback("no this office..",null);
+                }else{
+                    var i=0;
+                    var data=[];
+                    if(what=="sleaveMessages"){
+                        data=doc.sleaveMessages;
+                    }else if(what=="sfeedbackMessages"){
+                        data=doc.sfeedbackMessages;
+                    }else if(what=="joinMessages"){
+                        data=doc.joinMessages;
+                    }else if(what=="sprojectMessages"){
+                       data=doc.sprojectMessages;
+                    }else{
+                        return callback("查询错误",null);
+                    }
+                   callback(null,data);
+                }
+            }
+        });
+    });
+}
+
 /**
  * 同意消息申请  4种模式
  * @param sname  officeName
@@ -275,7 +370,7 @@ function adminMsgOk(sname,what,smid,staute,callback){
                                ],function(err,msg){
                                    return callback(err,msg);
                                });
-                          
+
                        }else if(what=="sfeedbackMessages"){
                            async.series([
                                  function(callback){
@@ -470,6 +565,546 @@ function adminMsgDel(sname,what,vals,staue,callback){
     })
 }
 
+
+//*******************新-审核模块******************************
+function leavemsginfo(sname,staute,callback) {
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+    db.on("error", console.error.bind(console, "connect error:"));
+    db.once('open', function () {
+         studio.find({sname:sname,"sleaveMessages.mstaute":staute},{sleaveMessages:1,_id:0},function(err,doc){
+             console.log(err + "  "+ doc);
+             callback(null);
+         })
+    });
+}
+/**
+ * 留言处理模块。。12/18
+ * @param sname
+ * @param msgids
+ * @param staute
+ * @param callback
+ */
+function leavemsg(sname,msgids,staute,callback){
+
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+    db.on("error",console.error.bind(console,"connect error:"));
+    db.once('open',function(){
+        if(typeof(msgids)=='string'){
+            msgids=mongoose.Types.ObjectId(msgids);
+            console.log(msgids);
+            studio.update({sname:sname,"sleaveMessages._id":msgids},{$set:{"sleaveMessages.$.mstaute":staute}},function(err,num){
+                db.close();
+                console.log(err+ "  " + num);
+                callback(null);
+            })
+        }else if(typeof(msgids)=='object'){
+           console.log(msgids);
+            var j=0;
+            for(var i=0;i<msgids.length;i++){
+                msgids[i]=mongoose.Types.ObjectId(msgids[i]);
+                studio.update({sname:sname,"sleaveMessages._id":msgids[i]},{$set:{"sleaveMessages.$.mstaute":staute}},function(err,num){
+                    console.log(err+ "  " + num);
+                    console.log(i + "  " + j);
+                    j++;
+                    if(j==msgids.length){
+                        console.log("*****");
+                        db.close();
+                        callback(null);
+                    }
+                });
+            }
+        }else{
+            db.close();
+            callback("no selection..");
+        }
+    });
+
+    //studio.where('sleaveMessages._id').in(msgids)
+}
+
+//留言的删除..
+function leavemsgDel(msgids,callback){
+
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+
+    db.on("error",console.error.bind(console,"connect error:"));
+    db.once('open',function(){
+        if(typeof(msgids)=='string'){
+            msgids=mongoose.Types.ObjectId(msgids);
+            console.log(msgids);
+            studio.update({},{$pull:{"sleaveMessages":{"_id":msgids}}},function(err,num){
+                db.close();
+                console.log(err+ "  " + num);
+                if(err){callback(err)}
+                else if(num!=1){callback("failed..")}
+                else {callback(null);}
+            });
+        }else if(typeof(msgids)=='object'){
+            console.log(msgids);
+            var j=0;
+            for(var i=0;i<msgids.length;i++){
+                msgids[i]=mongoose.Types.ObjectId(msgids[i]);
+                studio.update({},{$pull:{"sleaveMessages":{"_id":msgids[i]}}},function(err,num){
+                    console.log(err+ "  " + num);
+                    console.log(i + "  " + j);
+                    j++;
+                    if(j==msgids.length){
+                        console.log("*****");
+                        db.close();
+                        callback(null);
+                    }
+                });
+            }
+        }else{
+            db.close();
+            callback("no selection..");
+        }
+    });
+}
+
+//用户留言-删除评论
+function leavemsgDelC(id,callback) {
+
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+    db.on("error", console.error.bind(console, "connect error:"));
+    db.once('open', function () {
+        studio.update({"sleaveMessages.reversions._id":id},{$pull:{"sleaveMessages.$.reversions":{_id:id}}},function(err,doc){
+        //studio.find({"sleaveMessages.reversions._id":id},{$pull:{"sleaveMessages.$.reversions":{_id:uid}}},function(err,doc){
+            console.log(doc+ " ** " + err);
+            db.close();
+            callback(null);
+        })
+    })
+}
+//用户留言-添加评论
+function leavemsgC(name,email,content,id,callback) {
+
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+    db.on("error", console.error.bind(console, "connect error:"));
+    db.once('open', function () {
+        var uid=mongoose.Types.ObjectId(id);
+        console.log(uid);
+        studio.update({"sleaveMessages._id": uid}, {$push:{"sleaveMessages.$.reversions":{uname:name,uemail:email,mcontent:content}}}, function (err, num) {
+       //    studio.find({"sleaveMessages._id": uid},{sleaveMessages:1},function(err,num){
+            db.close();
+            console.log(err + num );
+            callback(null);
+        });
+    });
+}
+//成员反馈模块-新
+function feedbackmsg(sname,msgids,staute,callback){
+
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+    db.on("error",console.error.bind(console,"connect error:"));
+    db.once('open',function(){
+        if(typeof(msgids)=='string'){
+            msgids=mongoose.Types.ObjectId(msgids);
+            console.log(msgids);
+            studio.update({sname:sname,"sfeedbackMessages._id":msgids},{$set:{"sfeedbackMessages.$.mstaute":staute}},function(err,num){
+                db.close();
+                console.log(err+ "  " + num);
+                callback(null);
+            })
+        }else if(typeof(msgids)=='object'){
+            console.log(msgids);
+            var j=0;
+            for(var i=0;i<msgids.length;i++){
+                msgids[i]=mongoose.Types.ObjectId(msgids[i]);
+                studio.update({sname:sname,"sfeedbackMessages._id":msgids[i]},{$set:{"sfeedbackMessages.$.mstaute":staute}},function(err,num){
+                    console.log(err+ "  " + num);
+                    console.log(i + "  " + j);
+                    j++;
+                    if(j==msgids.length){
+                        console.log("*****");
+                        db.close();
+                        callback(null);
+                    }
+                });
+            }
+        }else{
+            db.close();
+            callback("no selection..");
+        }
+    });
+}
+
+/*
+*   成员反馈
+*   2015/1/18
+ */
+//成员反馈-  删除成员反馈
+function feedbackmsgDel(msgids,callback){
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+
+    db.on("error",console.error.bind(console,"connect error:"));
+    db.once('open',function(){
+        if(typeof(msgids)=='string'){
+            msgids=mongoose.Types.ObjectId(msgids);
+            console.log(msgids);
+            studio.update({},{$pull:{"sfeedbackMessages":{"_id":msgids}}},function(err,num){
+                db.close();
+                console.log(err+ "  " + num);
+                if(err){callback(err)}
+                else if(num!=1){callback("failed..")}
+                else {callback(null);}
+            });
+        }else if(typeof(msgids)=='object'){
+            console.log(msgids);
+            var j=0;
+            for(var i=0;i<msgids.length;i++){
+                msgids[i]=mongoose.Types.ObjectId(msgids[i]);
+                studio.update({},{$pull:{"sfeedbackMessages":{"_id":msgids[i]}}},function(err,num){
+                    console.log(err+ "  " + num);
+                    console.log(i + "  " + j);
+                    j++;
+                    if(j==msgids.length){
+                        console.log("*****");
+                        db.close();
+                        callback(null);
+                    }
+                });
+            }
+        }else{
+            db.close();
+            callback(null);
+        }
+    });
+}
+
+//成员反馈-  添加回复
+function feedbackmsgC(name,email,content,id,callback){
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+    db.on("error", console.error.bind(console, "connect error:"));
+    db.once('open', function () {
+        var uid=mongoose.Types.ObjectId(id);
+        console.log(uid);
+        studio.update({"sfeedbackMessages._id": uid}, {$push:{"sfeedbackMessages.$.reversions":{uname:name,uemail:email,mcontent:content}}}, function (err, num) {
+            db.close();
+            console.log(err + num );
+            callback(null);
+        });
+    });
+}
+//成员反馈-  删除回复
+function feedbackmsgDelC(id,callback) {
+
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+    db.on("error", console.error.bind(console, "connect error:"));
+    db.once('open', function () {
+        studio.update({"sfeedbackMessages.reversions._id":id},{$pull:{"sfeedbackMessages.$.reversions":{_id:id}}},function(err,doc){
+            console.log(doc+ " ** " + err);
+            db.close();
+            callback(null);
+        })
+    })
+}
+
+//加入组织申请
+function joingroupmsg(sname,callback) {
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+    db.on("error", console.error.bind(console, "connect error:"));
+    db.once('open', function () {
+        studio.findOne({sname:sname,"joinMessages.mstaute":0},{"joinMessages":1,_id:0}).populate('joinMessages.gid','_id gname','group',null,{multi:true}).exec(function(err,docs){
+            db.close();
+            console.log(err);
+            if(docs==null){
+                callback(err,null);
+            }else{
+                callback(err,docs.joinMessages);
+            }
+
+        });
+    })
+}
+/* --- -   old -  ---*/
+//首先处理消息状态;
+
+function joingroup(sname,msgids,staute,callback) {
+
+        if(typeof(msgids)=='string'){
+           var msgid=mongoose.Types.ObjectId(msgids);
+            joingroupString(sname,msgid,staute,callback);
+        }else if(typeof(msgids)=='object'){
+            console.log(msgids);
+            var j=0;
+            for(var i=0;i<msgids.length;i++){
+                msgids[i]=mongoose.Types.ObjectId(msgids[i]);
+                (function (){joingroupString(sname,msgids[i],staute,function(err){
+                    j++;
+                    if(j==msgids.length){
+                        console.log("*****");
+                        callback(null);
+                    }
+                });})(i)
+            }
+        }else{
+            callback("no selection..");
+        }
+}
+
+/**
+ * 最终加入组织申请处理函数..哇..
+ * @param sname
+ * @param msgids
+ * @param staute
+ * @param callback
+ */
+function joingroupEx(sname,msgids,staute,callback) {
+   if(staute!=1){
+       console.log("del..Array.."+msgids);
+       console.log(typeof(msgids));
+        if(typeof(msgids)=='string'){
+            var msgid=mongoose.Types.ObjectId(msgids);
+            joingroupDel(sname,msgid,callback);
+        }else if(typeof(msgids)=='object') {
+            var errs = [];
+            console.log("del..Array.."+msgids);
+            joingroupDelI(sname, msgids, errs, callback);
+        }else{
+            return callback(null);
+        }
+   }else{
+       if(typeof(msgids)=='string'){
+           var msgid=mongoose.Types.ObjectId(msgids);
+           joingroupString(sname,msgid,staute,callback);
+       }else if(typeof(msgids)=='object'){
+           joingroupI(sname,msgids,staute,callback);
+       }else{
+           callback(null);
+       }
+   }
+}
+//审核未通过处理..
+//单条..
+function joingroupDel(sname,mid,callback){
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, "connect error:"));
+    db.once('open', function () {
+        console.log(mid);
+//        studio.findOne({sname:sname},{"joinMessages":1},function(err,doc){
+//
+//            if(err){ db.close();callback(err);}
+//            else if(doc==null){ db.close();callback("fail to update..")}
+//            else{
+//                console.log(doc.joinMessages);
+//                console.log(doc.joinMessages.splice(doc.joinMessages.indexOf(mid),1));
+//                doc.save(function(err){
+//                   db.close();
+//                    callback(null);
+//                })
+//                }
+//        });
+        studio.update({sname:sname},{$pull:{"joinMessages":{_id:mid}}},function(err,num){
+            if(err){ db.close();callback(err);}
+            else if(num==null){ db.close();callback("fail to update..")}
+            else{
+                db.close();
+//                console.log(doc.joinMessages);
+//                console.log(doc.joinMessages.splice(doc.joinMessages.indexOf(mid),1));
+//                doc.save(function(err){
+//                   db.close();
+                 callback(null);
+               // })
+                }
+        })
+    });
+}
+
+//数组..
+function joingroupDelI(sname,mids,errs,callback){
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, "connect error:"));
+    db.once('open', function () {
+        var mid=mids.pop();
+        studio.update({sname:sname},{$pull:{"joinMessages":{"_id":mid}}},function(err,num){
+            db.close();
+            if(err){errs.push(err);}
+            else if(num!=1){errs.push("fail to update.."+mid)}
+            else{errs.push(null)}
+            if(mids.length==0){
+                callback(errs);
+            }else{
+                joingroupDelI(sname,mids,errs,callback);
+            }
+        });
+    });
+}
+
+//审核通过处理..
+//递归调用..处理数组..
+function joingroupI(sname,msgids,staute,callback){
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, "connect error:"));
+    db.once('open', function () {
+        console.log(msgids);
+        var mid=msgids.pop();
+        console.log(mid);
+        studio.update({sname:sname,"joinMessages._id":mid},{$set:{"joinMessages.$.mstaute":staute}},function(err,num){
+            console.log(err+"  " + num);
+            if(err){db.close();return callback(err);}
+            else{
+                //更新用户所属组别 ,更新组包含的用户..
+                studio.findOne({"joinMessages._id":mid},{"joinMessages.$":1,_id:0}).populate('joinMessages.uid','ugroupId _id','user',null,{multi:true}).populate('joinMessages.gid','_id gmember','group',null,{multi:true}).exec(function(err,doc){
+                    if(err){db.close(); callback(err)}
+                    else if(num==0){db.close();callback("nothing");}
+                    else {
+                        doc = doc.joinMessages[0];
+                          console.log(doc);
+                        //更新用户所属组别..
+                        if (doc.uid.ugroupId != null) {
+                            console.log("you have a group..");
+                            db.close();
+                            if(msgids.length==0){
+                                callback(null);  //***出错信息如何保存?数组递归?
+                            }
+                            else{
+                                joingroupI(sname,msgids,staute,callback);
+                            }
+                        }
+                        else if (service.inArray(doc.gid.gmember, mongoose.Types.ObjectId(doc.uid._id), true)) {
+                            console.log("you have a group..");
+                            db.close();
+                            if(msgids.length==0){
+                                callback(null);  //***出错信息如何保存?数组递归?
+                            }
+                            else{
+                                joingroupI(sname,msgids,staute,callback);
+                            }
+                        }
+                        else{
+                            doc.uid.ugroupId = doc.gid._id;
+                            doc.uid.save(function (err, one) {
+                                if(err){console.log(err);}
+                                doc.gid.gmember.push(mongoose.Types.ObjectId(doc.uid._id));
+                                doc.gid.save(function (err, two) {
+                                    if(err){console.log(err);}
+                                    db.close();
+                                    if(msgids.length==0){
+                                        callback(null);  //***出错信息如何保存?数组递归?
+                                    }
+                                    else{
+                                        joingroupI(sname,msgids,staute,callback);
+                                    }
+                                });
+                            });
+                    }}
+                });
+            }
+        });
+    })
+}
+
+
+function joingroupString(sname,msgids,staute,callback){
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, "connect error:"));
+    db.once('open', function () {
+        //    console.log(msgids);
+            studio.update({sname:sname,"joinMessages._id":msgids},{$set:{"joinMessages.$.mstaute":staute}},function(err,num){
+          //      console.log(err+"  " + num);
+                if(err){db.close();return callback(err);}
+                else{
+                    //更新用户所属组别 ,更新组包含的用户..
+                    studio.findOne({"joinMessages._id":msgids},{"joinMessages.$":1,_id:0}).populate('joinMessages.uid','ugroupId _id','user',null,{multi:true}).populate('joinMessages.gid','_id gmember','group',null,{multi:true}).exec(function(err,doc){
+                        if(err){db.close(); callback(err)}
+                        else {
+                            doc = doc.joinMessages[0];
+                          //  console.log(doc);
+                            //更新用户所属组别..
+                            if (doc.uid.ugroupId != null) {
+                                db.close();callback("you have a group..");
+                            }
+                            else if (service.inArray(doc.gid.gmember, mongoose.Types.ObjectId(doc.uid._id), true)) {
+                                db.close();callback("you have a group..");
+                            }else{
+                                doc.uid.ugroupId = doc.gid._id;
+                                doc.uid.save(function (err, one) {
+                                    if(err){console.log(err);}
+                                    doc.gid.gmember.push(mongoose.Types.ObjectId(doc.uid._id));
+                                    doc.gid.save(function (err, two) {
+                                        if(err){console.log(err);}
+                                        db.close();
+                                        callback(null);  //***出错信息如何保存?数组递归?
+                                    });
+                                });
+                            }
+//                            async.series([
+//                                function (cb) {
+//                                    doc.uid.ugroupId = doc.gid._id;
+//                                    doc.uid.save(function (err, doc) {
+//                                        cb(err, doc, false);
+//                                    });
+//                                },
+//                                function (cb) {
+//                                    doc.gid.gmember.push(mongoose.Types.ObjectId(doc.uid._id));
+//                                    doc.gid.save(function (err, doc) {
+//                                        cb(err, doc, true);
+//                                    });
+//                                }
+//                            ], function (err, val,bool) {
+//                                console.log("mongo step : " + err + " " + val+"\n");
+//                                console.log(err);
+//                                console.log(val);
+//                                if (bool) {
+//                                    db.close();
+//                                    callback(null);
+//                                }
+//                            });
+                        }
+//                        doc.uid.ugroupId = doc.gid._id;
+//                        doc.uid.save(function(err,num){
+//                            console.log(err + " " + num);
+//                            i=1;
+//                            if(j==1){
+//                                db.close();
+//                                callback(null);
+//                            }
+//                        });
+//                        doc.gid.gmember.push(mongoose.Types.ObjectId(doc.uid._id));
+//                        doc.gid.save(function(err,num){
+//                            console.log(err + " " + num);
+//                            j=1;
+//                            if(i==1){
+//                                db.close();
+//                                callback(null);
+//                            }
+//                        });
+                    });
+                    }
+                });
+    })
+}
+
+/**
+ * 关于项目申请部分 --------- 20150120重寫
+ *
+ */
+
+function projectmsgString(sname,msgids,staute,callback){
+    mongoose.connect("mongodb://localhost/studio");
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, "connect error:"));
+    db.once('open', function () {
+        studio.update({sname:sname,"sprojectMessages._id":msgids},{$set:{"joinMessages.$.mstaute":staute}},function(err,num){
+
+        })
+    })
+}
 //*******************************发布模块函数********************************8
 //*******************这里没有加入登录验证***************************
 
@@ -1327,3 +1962,16 @@ exports.removeUser=removeUser;
 exports.peopleInfo=peopleInfo;
 exports.peopleNum=peopleNum;
 exports.findPeople=findPeople;
+exports.leavemsg=leavemsg;
+exports.leavemsgDel=leavemsgDel;
+exports.leavemsgDelC=leavemsgDelC;
+exports.leavemsgC=leavemsgC;
+exports.joingroup=joingroup;
+exports.joingroupEx=joingroupEx;
+exports.adminTips=adminTips;
+exports.adminMsg_all=adminMsg_all;
+exports.feedbackmsg=feedbackmsg;
+exports.feedbackmsgDelC=feedbackmsgDelC;
+exports.feedbackmsgDel=feedbackmsgDel;
+exports.feedbackmsgC=feedbackmsgC;
+exports.joingroupmsg=joingroupmsg;

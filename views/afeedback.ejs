@@ -1,19 +1,117 @@
 
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style type="text/css">
+        #a { width:1002px; height:726px;border:1px #000000 solid; float:left; margin-left: 2px;
+            overflow: auto;}
+        #b {width:860px; height:714px;border:1px #000000 solid; margin: 10px auto;}
+        h {font-size: 30px; margin-left:20px;  margin-top: 6px;  float: left;}
+    </style>
 
-<%-include bfooter%>
-<%-include bheader %>
-<form role="form" class="form" action="" method="post">
+    <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/top.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/aleftnav.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/a_3chengyuanfankui.css">
 
-    <% for(var i in data){%>
-    <div class="form-group">
-        <label class="control-label" for="msg"><%=i%>==><%=data[i]%></label>
-        <input type="checkbox" class="form-control" value=<%=data[i]._id%> id="msg" name="msg">同意
-        <input type="checkbox" class="form-control" value=<%=data[i]._id%> id="msgno" name="msgno">不同意
+    <script type="text/javascript" src="/bootstrap/js/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="/javascripts/link_chengyuanfankui.js"></script>
+
+</head>
+
+<body>
+
+<%- include top %>
+<%- include aheader %>
+<!-- 导航条 -->
+<div id="nav">
+<ul>
+    <li><a href="/admin/">后台管理</a></li>
+    <li><a href="/admin/tip">通知</a></li>
+    <li><a href="feedback">成员反馈</a></li>
+</ul>
+</div>
+<%- include aleftnav%>
+
+
+<div class="contentnav">
+      <span>
+        <a href="/admin">螺丝工作室后台管理 ></a>
+        <a href="/admin/tip/">通知 ></a>
+        <a href="feedback">成员反馈</a>
+      </span>
+</div>
+
+
+<div id="a">
+    <div id="b">
+
+        <h>成员反馈列表</h>
+
+        <div id="yichuli">
+            <span class="s1" ><a id="y_shanchu">删除</a></span>
+            <span class="s1" ><a id="y_quanxuan">全选</a></span>
+
+            <%
+              if(typeof(data)=='object'){
+                  for(var i=0;i<data.length;i++){ %>
+              <div class ="div1">
+                  <span>from <%=data[i].uname%>    时间:<%= data[i].mtime%> </span>
+                  <form action="" method="post">
+                      <input type="hidden" value="<%=data[i]._id%>" name="msg">
+                      <input type="checkbox" class="input_checkbox2" value="<%=data[i]._id%>" id="i1" name="msgs">
+                      <input type="image" class="input0" onclick="return false;" src="/images/u53.png"  value="0" >
+                  </form>
+                      <span   class="right2"><a class="fabiao">发布回复</a></span>
+                      <span  class="right1"><a class="chakan">共有<%=data[i].reversions.length%>条回复</a></span>
+                  </br>
+                  <p4><%=data[i].mcontent%></p4>
+              <div class="liuyankuang" >
+                  <!-- 留言区 -->
+                  <% for(var j=0;j<data[i].reversions.length;j++){%>
+              <div class="liuyan">
+                  <span><%=data[i].reversions[j].uname%>[<%=data[i].reversions[j].mtime%>]:<%=data[i].reversions[j].mcontent%></span>
+                  <form action="" method="post">
+                      <input type="hidden" value="<%=data[i].reversions[j]._id%>" name="id">
+                      <input type="image" onclick="return false;" class="input1" src="/images/u53.png" >
+                  </form>
+              </div>
+                <%}//for  j
+                %>
+                  <div id ="liuyan_moban" >
+                      <span class="liuyan_text"></span>
+                      <input type="image"   class="input0" src="/images/u53.png" >
+                  </div>
+                  <!-- 编辑区 -->
+                  <div class ="textarea">
+                      <form ation="" method="post">
+                          <input type="hidden" name="id" value="<%=data[i]._id%>">
+                          大名:<input type="text" name="uname"><br>
+                          email:<input type="email" name="uemail"><br>
+                          留言:<textarea class="text" style="overflow:auto;" name="content">
+                          </textarea>
+                          <input type="image" value="取消" class="quxiao">
+                          <input type="image" value="提交" class="input4 tijiao">
+                      </form>
+                  </div>
+                  </div>
+                  </div>  <!-- div1 -->
+            <%
+                }// for   i
+              }else{%><p>什么都没有呢..</p><%}
+             %>
+
+            <div class="block" id="yichuli_div">
+                <p class="p1"> 加载内容</p>
+            </div>
+
+        </div>   <!-- 已处理的div -->
     </div>
-    <%}%>
-    <div class="form-group">
-        <button class="btn btn-default center-block" type="submit">确认审核</button>
-    </div>
-</form>
+</div>
 
-<%-include bfooter%>
+</body>
+
+</html>
+

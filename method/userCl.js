@@ -118,7 +118,7 @@ function groupInfo(callback){
 
     db.once('open',function(){
 
-        groups.find({},"gname",function(err,data){
+        groups.find({},"gname _id",function(err,data){
             db.close();
            if(err)  callback(err,null);
            else{
@@ -222,6 +222,7 @@ function getSkill(_id,callback){
 function skillEdit(_id,skills,callback){
    // skills=skills.toArray();
     console.log(skills);
+    _id=mongoose.Types.ObjectId(_id);
     //
     //user.update({_id:_id},{$addToSet:{uskills:{$each:skills}}},function(err,numAffected,raw){
                 user.update({_id:_id},{$set:{uskills:skills}},function(err,numAffected,raw){
@@ -244,14 +245,12 @@ function joinGroup(username,groupId,content,callback){
 
     mongoose.connect("mongodb://localhost/studio");
     var db=mongoose.connection;
-
+     console.log(groupId+"groupid..");
     db.on('error',console.error.bind(console,'connection error:******'));
 
     db.once('open',function() {
-        console.log('mongodb is open..' + username);
-
-        user.findOne({uname: username}, function (err, userone) {
-            if (err) return handleError(err);
+       user.findOne({uname: username}, function (err, userone) {
+            if (err) {db.close();callback(err)}
             else if (userone == null) {
                 db.close();
                 callback(null,"no this user");
@@ -259,13 +258,16 @@ function joinGroup(username,groupId,content,callback){
                 db.close();
                 callback(null,'you have a group');
             } else {
-                var mydate=new Date();
-
-               studio.update({sname:"RoseOffice"},{$push:{joinMessages:{smid:userone._id,uname:userone.uname,uemail:userone.uemail,mcontent:content,mtime:mydate}}},function(err,num){
-                  if(err) return  callback(err,0);
+                //var gid=mongoose.Types.ObjectId(groupId);//这个如果是用 自身转换为自身转化赋值的话,会出错..记住咯.
+                //console.log(gid);
+                console.log(userone._id);
+                var uid=mongoose.Types.ObjectId(userone._id);
+                console.log(uid);
+               studio.update({sname:"RoseOffice"},{$push:{joinMessages:{uid:uid,uname:userone.uname,uemail:userone.uemail,mcontent:content,gid:groupId}}},function(err,num){
+                   db.close();
+                   if(err) return  callback(err,0);
                    else{
                       console.log(num);
-                      db.close();
                       return callback(null,num);
                   }
                });
@@ -484,7 +486,7 @@ function projectsMy(uname,uid,callback){
     });
 }
 
-
+//通过状态查找我的项目
 function projectsClass(uid,cls,callback){
     mongoose.connect("mongodb://localhost/studio");
     var db=mongoose.connection;
@@ -495,6 +497,23 @@ function projectsClass(uid,cls,callback){
         projects.find({$or:[{pleader:id},{pmembers:id}],pstaute:cls}).populate("pleader","uname -_id","user",null).populate("pmembers","uname -_id","user",null).exec(function(err,docs){
             db.close();
             callback(err,docs);
+        })
+    });
+}
+
+//退出项目..
+function projectQuit(uid,pid,content,callback){
+    mongoose.connect("mongodb://localhost/studio");
+    var db=mongoose.connection;
+    var id=mongoose.Types.ObjectId(uid);
+    var pid=mongoose.Types.ObjectId(pid);
+
+    db.on('error',console.error.bind(console,"connection error:"));
+    db.once('open',function() {
+        studio.update({},{$push:{qProjects:{user:id,project:pid,content:content}}},function(err,num){
+            db.close();
+            if(err||num!=1){callback(err)}
+            else{callback(null)}
         })
     });
 }
@@ -572,8 +591,14 @@ function projectsLists(ptype,callback){
     });
 }
 
-function joinProjects(userid,pid,callback){
-    console.log(userid+"  " +pid);
+/**
+ * 加入项目--   传入 个人和项目id,申请说明..
+ * @param userid
+ * @param pid
+ * @param content
+ * @param callback
+ */
+function joinProjects(userid,pid,content,callback){
     userid=mongoose.Types.ObjectId(userid);
     pid=mongoose.Types.ObjectId(pid);
     mongoose.connect("mongodb://localhost/studio");
@@ -581,10 +606,28 @@ function joinProjects(userid,pid,callback){
     db.on('error',console.error.bind(console,'connection error:******'));
     db.once('open',function() {
         user.update({_id:userid},{$addToSet:{uprojectsAsked:pid}},function(err,num){
-            db.close();
-            if(err)callback(err);
-            else if(num!=1) callback("未加入成功..");
-            else callback(null);
+
+            if(err){  db.close();callback(err);}
+            else if(num!=1) {  db.close();callback("未加入成功..");}
+            else{
+                user.findOne({_id:userid},{uname:1,uemail:1},function(err,userone){
+                    if(err||userone==null){
+                        db.close();
+                        callback(err);
+                    }else{
+                        studio.update({sname:"RoseOffice"},{$push:{sprojectMessages:{uid:userone._id,uname:userone.uname,uemail:userone.uemail,mcontent:content,pid:pid}}},function(err,num){
+                            db.close();
+                            if(err) return  callback(err);
+                            else if(num!=1){
+                                callback("未成功更新。。");
+                            }else{
+                                 callback(null);
+                            }
+                        });
+                    }
+                })
+
+            }
         })
     });
 }
@@ -613,11 +656,10 @@ function sendFeedBack(username,content,callback){
             else {
 
                 studio.update({sname:"RoseOffice"},{$push:{sfeedbackMessages:{smid:userone._id,uname:userone.uname,uemail:userone.uemail,mcontent:content,reversions:[]}}},function(err,num){
-                    if(err) return  callback(err,0);
+                    db.close();
+                    if(err) callback(err,0);
                     else{
-                        console.log(num);
-                        db.close();
-                        return callback(null,num);
+                         callback(null,num);
                     }
                 });
 
@@ -626,6 +668,20 @@ function sendFeedBack(username,content,callback){
     });
 }
 
+
+function leaveMsg(uname,email,content,callback){
+    mongoose.connect("mongodb://localhost/studio");
+    var db=mongoose.connection;
+
+    db.once('open',function(){
+        studio.update({},{$push:{sleaveMessages:{uname:uname,uemail:email,mcontent:content,reversions:[]}}},function(err,num){
+            db.close();
+            console.log(err + "  " + num);
+            callback(null);
+        })
+    })
+
+}
 function logout(session){
     session.destroy();
 }
@@ -649,3 +705,4 @@ exports.projectsLists=projectsLists;
 exports.groupInfo=groupInfo;
 exports.joinProjects=joinProjects;
 exports.logout=logout;
+exports.leaveMsg=leaveMsg;

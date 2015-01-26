@@ -125,10 +125,12 @@ router.post('/skillEdit',function(req,res) {
         mongoose.connect("mongodb://localhost/studio");
         var db = mongoose.connection;
         var skills=req.body.skills;
+        var uid =req.session._id;
+        console.log(uid + "  " + skills);
         db.on('error', console.error.bind(console, 'connection error:******'));
         console.log("db is open..");
         db.once('open', function () {
-            userCl.skillEdit(req.session._id,skills,function(err){
+            userCl.skillEdit(uid,skills,function(err){
                 if (err) {
                     db.close();
                     res.render('error', {message: err});
@@ -272,9 +274,9 @@ router.post('/projectsList', function(req,res) {
 });
 router.post('/joinProjects',function(req,res){
     var pid=req.body.ppid;
-    console.log(pid+"***************");
     var userid=req.session._id;
-    userCl.joinProjects(userid,pid,function(err){
+    var content=req.body.content;
+    userCl.joinProjects(userid,pid,content,function(err){
         if(err) res.render("error",{message:err});
         else{
             res.render('ok',{message:"加入成功,等待审核中.."});
@@ -296,9 +298,10 @@ router.get('/joinGroup', function(req,res) {
 });
 
 router.post('/joinGroup', function(req,res) {
-    console.log('post...request..');
+
     var username=req.session.name;
-    userCl.joinGroup('user1',req.body.groupId,req.body.content,function(error,num){
+
+    userCl.joinGroup(username,req.body.groupId,req.body.content,function(error,num){
         if(error) return handleError(error);
         else{
             if(num===1){
@@ -321,7 +324,7 @@ router.get('/sendFeedBack', function(req,res) {
 router.post('/sendFeedBack', function(req,res) {
     console.log('post...request..');
     var username=req.session.name;
-    userCl.sendFeedBack('user1',req.body.content,function(error,num){
+    userCl.sendFeedBack(username,req.body.content,function(error,num){
         if(error) return handleError(error);
         else{
             if(num===1){
@@ -334,9 +337,26 @@ router.post('/sendFeedBack', function(req,res) {
     });
 });
 
+router.get("/leavemsg",function(req,res){
+    res.render('leavemsg',{});
+})
+
+router.post("/leavemsg",function(req,res){
+    var uname=req.body.uname;
+    var email=req.body.email;
+    var content= req.body.content;
+    userCl.leaveMsg(uname,email,content,function(err){
+        res.render('leavemsg',{});
+    })
+})
+
 router.get('/logout',function(req,res){
     var session = req.session;
     userCl.logout(session);
     res.render('login');
+})
+
+router.get("/aaa",function(req,res){
+    res.render('bianjijinengshu',{});
 })
 module.exports = router;
