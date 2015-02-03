@@ -1,25 +1,25 @@
-前缀: /adm0in/|||
------
-leaveMsg [#游客留言:页面]|get|-|data #留言消息 [数组]
-leaveMsgOk [#审核留言: 通过]|post|msg #消息id [数组 | 单个]|[页面刷新]
-leaveMsgOkJ [#审核留言: 通过]|post|msg[] #消息id [数组 | 单个]|?{success:1} or {success:0}
-leaveMsgNo [#审核留言: 不通过]|post|msg #消息id [数组 | 单个]|[页面刷新]
-leaveMsgNoJ [#审核留言: 不通过]|post|msg[] #消息id [数组 | 单个]|?{success:1} or {success:0}
-leaveMsgDel [#处理留言: 删除]|msg #消息id [数组 | 单个]|[页面刷新]
-leaveMsgDelJ [#处理留言: 删除]|msg[] #消息id [数组 | 单个]	|? {success:1} or {success:0}
-leaveMsgC [#回复留言]	|uname[String] uemail[String] content #回复内容[String] id #留言id[String]|[页面刷新]
-leaveMsgCDel [#删除留言回复]|id #回复id[String]|[页面刷新]
-feedback [#成员反馈:获取消息]|get|-|data #反馈消息 [数组]
-feedbackDel [#成员反馈:删除消息]|p|msg #消息id [数组 | 单个]|[页面刷新]
-feedbackDelJ [#成员反馈:删除消息]|-|msg[]  #消息id [数组 | 单个]|	?{success:1} or {success:0}
-feedbackC  [#回复留言]|	uname[String] uemail[String] content #回复内容 [String] id #留言id [String]|[页面刷新]
-feedbackCDel [#删除留言回复]|id #回复id [String]|[页面刷新]
-joinMsg [#加入组织:获取信息]|g|-|data #页面信息 [数组]
-joinMsgOkJ [#加入组织:通过]||	msg #消息id [数组 | 单个]|	?{success:1} or {success:0}
-joinMsgNoJ [#加入组织:不通过]||	msg [#消息id] [数组 | 单个]|	?\n\r{success:1}\n\r{success:0}
-projectMsg [#项目申请:获取信息]	|g|	-|	data [#项目消息] [数组]
-projectMsgOkJ [#项目申请:通过]|		|msg [#消息id] [数组 | 单个]	|?\n\r{success:1}\n\r{success:0}
-projectMsgNoJ [#项目申请:不通过] | |msg [#消息id] [数组 | 单个]	|?\n\r{success:1}\n\r{success:0}
+前缀: /adm0in/                    | -  |-                                                                         | -           |
+----------------------------------|----|--------------------------------------------------------------------------|-------------|
+leaveMsg [#游客留言:页面]         |get |-                                                                         | data #留言消息 [数组]
+leaveMsgOk [#审核留言: 通过]      |post|msg #消息id [数组 | 单个]                                                 | [页面刷新]
+leaveMsgOkJ [#审核留言: 通过]     |post|msg[] #消息id [数组 | 单个]                                               | ?{success:1} or {success:0}
+leaveMsgNo [#审核留言: 不通过]    |post|msg #消息id [数组 | 单个]                                                 | [页面刷新]
+leaveMsgNoJ [#审核留言: 不通过]   |post|msg[] #消息id [数组 | 单个]                                               | ?{success:1} or {success:0}
+leaveMsgDel [#处理留言: 删除]     |    |msg #消息id [数组 | 单个]                                                 | [页面刷新]
+leaveMsgDelJ [#处理留言: 删除]    |    |msg[] #消息id [数组 | 单个]	                                              | ?{success:1} or {success:0}
+leaveMsgC [#回复留言]	          |    |uname[String] uemail[String] content #回复内容[String] id #留言id[String] | [页面刷新]
+leaveMsgCDel [#删除留言回复]      |    |id #回复id[String]                                                        | [页面刷新]
+feedback [#成员反馈:获取消息]     |get |-                                                                         | data #反馈消息 [数组]
+feedbackDel [#成员反馈:删除消息]  |post|msg #消息id [数组                                                         | [单个]|[页面刷新]
+feedbackDelJ [#成员反馈:删除消息] |    |msg[]  #消息id [数组 | 单个]                                              |	?{success:1} or {success:0}
+feedbackC  [#回复留言]            |    |uname[String] uemail[String] content #回复内容[String] id #留言id[String] | [页面刷新]
+feedbackCDel [#删除留言回复]      |    |id #回复id [String]                                                       | [页面刷新]
+joinMsg [#加入组织:获取信息]      |g   |-                                                                         |data #页面信息 [数组]
+joinMsgOkJ [#加入组织:通过]|      |	   |msg #消息id [数组 | 单个]                                                 |	?{success:1} or {success:0}
+joinMsgNoJ [#加入组织:不通过]     |    |	msg [#消息id] [数组 | 单个]                                           |	?{success:1}\n\r{success:0}
+projectMsg [#项目申请:获取信息]	  |g   |-  	                                                                      |	data [#项目消息] [数组]
+projectMsgOkJ [#项目申请:通过]    |	   |msg [#消息id] [数组 | 单个]	                                              | ?{success:1}\n\r{success:0}
+projectMsgNoJ [#项目申请:不通过]  |    |msg [#消息id] [数组 | 单个]	                                              | ?{success:1}\n\r{success:0}
 			
 (前缀)  /user			
 /info
