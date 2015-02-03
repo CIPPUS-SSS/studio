@@ -13,3 +13,9 @@ studio是基于mongodb和nodejs开发的螺丝工作室主页,
 ##启动:
 
 `node ./bin/www`
+
+##开发文档:
+[接口文档](doc/interface.md)
+
+##下一步:
+完成手机招新页.
